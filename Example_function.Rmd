@@ -26,7 +26,7 @@ library(rgeos)
 
 
 ```{r cars}
-setwd('E:/Helsinki/Rpackaging')
+#setwd('E:/Helsinki/Rpackaging')
 # Moth data
 Moth <- read.csv("Moths_109Sites.csv", header=T)
 head(Moth)
@@ -42,8 +42,8 @@ We look into the habitat categories within a 500m buffer:
 ```{r pressure, echo=FALSE}
 i=1
   
-setwd('E:/Helsinki/Rpackaging/Moth/2000')
-  str_name <- paste(Site[i], '_2000', '.tif', sep='')
+#setwd('E:/Helsinki/Rpackaging/Moth/2000')
+  str_name <- paste("Moth/2000/", Site[i], '_2000', '.tif', sep='')
   
   st.i00 = raster(str_name)
   # before cutting
@@ -97,7 +97,7 @@ Bufferprop = function(RasterSite, CoordSite){
   
   i = RasterSite
   Site = CoordSite$SiteID
-  str_name <- paste(Site[i], '_2000', '.tif', sep='')
+  str_name <- paste("Moth/2000/",Site[i], '_2000', '.tif', sep='')
   
   st.i00 = raster(str_name)
   # before cutting
@@ -149,9 +149,9 @@ Bufferprop = function(RasterSite, CoordSite){
 And if we want to use the function:
 
 ```{r pressure, echo=FALSE}
-setwd('E:/Helsinki/Rpackaging/Moth/2000')
+#setwd('E:/Helsinki/Rpackaging/Moth/2000')
 
-Prop00 = Bufferprop(RasterSite = 2, CoordSite = Moth.xy)
+Prop00 = Bufferprop(RasterSite = 15, CoordSite = Moth.xy)
 Prop00
 
 ```
