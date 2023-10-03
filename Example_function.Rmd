@@ -1,0 +1,157 @@
+---
+title: "Habitat characteristics"
+author: "Emy Guilbault"
+date: "2023-10-02"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Example
+
+We display here a simple function to caculate habitta characteristics to a raster layer.
+
+```{r cars}
+library(raster)
+library(dplyr)
+library(plyr)
+library(tidyr)
+library (vegan)
+library(rgeos)
+```
+
+## Moth sites
+
+
+```{r cars}
+#setwd('E:/Helsinki/Rpackaging')
+# Moth data
+Moth <- read.csv("Moths_109Sites.csv", header=T)
+head(Moth)
+
+Moth.xy = (unique(Moth[,c(2:4)]))
+Moth.xy = Moth.xy[order(Moth.xy$SiteID),]
+
+Site = Moth.xy$SiteID
+```
+
+We look into the habitat categories within a 500m buffer:
+
+```{r pressure, echo=FALSE}
+i=1
+  
+#setwd('E:/Helsinki/Rpackaging/Moth/2000')
+  str_name <- paste("Moth/2000/", Site[i], '_2000', '.tif', sep='')
+  
+  st.i00 = raster(str_name)
+  # before cutting
+  site.i00_0.5 <- readAll(st.i00) # get values
+  
+  ## prep buffer
+  SitMoth.xy <- SpatialPoints(Moth.xy[i, c(2,3)]) 
+  proj4string(SitMoth.xy) <- CRS(SRS_string = "EPSG:3067")
+
+  
+  ## 0.5km
+  # round buffer
+  polys_0.5 <- gBuffer(SitMoth.xy, width = 500, capStyle = "ROUND", joinStyle = "MITRE") # uses rgeos -> migrate it!
+  
+  ## Clip corine with target size buffer
+  site.i00_0.5 = mask(site.i00_0.5, polys_0.5)
+  
+  plot(site.i00_0.5)
+  
+  ##  change cat
+  # forest
+  site.i00_0.5[site.i00_0.5 == 311| site.i00_0.5 == 312| site.i00_0.5 == 313] <- 'Forest'
+  
+  # SNherb
+  site.i00_0.5[site.i00_0.5 == 231 | site.i00_0.5 == 243 | site.i00_0.5 == 244| site.i00_0.5 == 321 | site.i00_0.5 == 322 | site.i00_0.5 == 324] = 'HSP'
+  
+  # urban
+  site.i00_0.5[site.i00_0.5 == 111 | site.i00_0.5 == 112| site.i00_0.5 == 121| site.i00_0.5 == 122| site.i00_0.5 == 123| site.i00_0.5 == 124| site.i00_0.5 == 131| site.i00_0.5 == 132| site.i00_0.5 == 133| site.i00_0.5 == 141| site.i00_0.5 == 142] <- 'Urban'
+  
+  # crops
+  site.i00_0.5[site.i00_0.5 == 211 | site.i00_0.5 == 212 | site.i00_0.5 == 213 | site.i00_0.5 == 241 | site.i00_0.5 == 221| site.i00_0.5 == 242 | site.i00_0.5 == 222| site.i00_0.5 == 223] <- 'Crops'
+  
+  # Wetland
+  site.i00_0.5[site.i00_0.5 == 411 | site.i00_0.5 == 412 | site.i00_0.5 == 421 | site.i00_0.5 == 422| site.i00_0.5 == 423] <- 'Wetland'
+  
+  # waterB
+  site.i00_0.5[site.i00_0.5 == 511 | site.i00_0.5 == 512 | site.i00_0.5 == 521| site.i00_0.5 == 522| site.i00_0.5 == 523] <- 'WaterBd'
+  
+  # others
+  site.i00_0.5[site.i00_0.5 == 331| site.i00_0.5 == 332| site.i00_0.5 == 333| site.i00_0.5 == 334| site.i00_0.5 == 335] = 'Others'
+  
+  DF00_0.5 = round(table(site.i00_0.5@data@values)/sum(table(site.i00_0.5@data@values)), 2)
+  
+```
+
+Thus the function can be written as:
+
+```{r pressure, echo=FALSE}
+
+Bufferprop = function(RasterSite, CoordSite){
+  
+  i = RasterSite
+  Site = CoordSite$SiteID
+  str_name <- paste("Moth/2000/",Site[i], '_2000', '.tif', sep='')
+  
+  st.i00 = raster(str_name)
+  # before cutting
+  site.i00_0.5 <- readAll(st.i00) # get values
+  
+  ## prep buffer
+  Sit.xy <- SpatialPoints(CoordSite[i, c(2,3)]) 
+  proj4string(Sit.xy) <- CRS(SRS_string = "EPSG:3067")
+
+  
+  ## 0.5km
+  # round buffer
+  polys_0.5 <- gBuffer(Sit.xy, width = 500, capStyle = "ROUND", joinStyle = "MITRE") # uses rgeos -> migrate it!
+  
+  ## Clip corine with target size buffer
+  site.i00_0.5 = mask(site.i00_0.5, polys_0.5)
+  
+  plot(site.i00_0.5)
+  
+  ##  change cat
+  # forest
+  site.i00_0.5[site.i00_0.5 == 311| site.i00_0.5 == 312| site.i00_0.5 == 313] <- 'Forest'
+  
+  # SNherb
+  site.i00_0.5[site.i00_0.5 == 231 | site.i00_0.5 == 243 | site.i00_0.5 == 244| site.i00_0.5 == 321 | site.i00_0.5 == 322 | site.i00_0.5 == 324] = 'HSP'
+  
+  # urban
+  site.i00_0.5[site.i00_0.5 == 111 | site.i00_0.5 == 112| site.i00_0.5 == 121| site.i00_0.5 == 122| site.i00_0.5 == 123| site.i00_0.5 == 124| site.i00_0.5 == 131| site.i00_0.5 == 132| site.i00_0.5 == 133| site.i00_0.5 == 141| site.i00_0.5 == 142] <- 'Urban'
+  
+  # crops
+  site.i00_0.5[site.i00_0.5 == 211 | site.i00_0.5 == 212 | site.i00_0.5 == 213 | site.i00_0.5 == 241 | site.i00_0.5 == 221| site.i00_0.5 == 242 | site.i00_0.5 == 222| site.i00_0.5 == 223] <- 'Crops'
+  
+  # Wetland
+  site.i00_0.5[site.i00_0.5 == 411 | site.i00_0.5 == 412 | site.i00_0.5 == 421 | site.i00_0.5 == 422| site.i00_0.5 == 423] <- 'Wetland'
+  
+  # waterB
+  site.i00_0.5[site.i00_0.5 == 511 | site.i00_0.5 == 512 | site.i00_0.5 == 521| site.i00_0.5 == 522| site.i00_0.5 == 523] <- 'WaterBd'
+  
+  # others
+  site.i00_0.5[site.i00_0.5 == 331| site.i00_0.5 == 332| site.i00_0.5 == 333| site.i00_0.5 == 334| site.i00_0.5 == 335] = 'Others'
+  
+  DF00_0.5 = round(table(site.i00_0.5@data@values)/sum(table(site.i00_0.5@data@values)), 2)
+  
+  print(DF00_0.5)
+  return(DF00_0.5)
+}
+```
+
+And if we want to use the function:
+
+```{r pressure, echo=FALSE}
+#setwd('E:/Helsinki/Rpackaging/Moth/2000')
+
+Prop00 = Bufferprop(RasterSite = 15, CoordSite = Moth.xy)
+Prop00
+
+```
