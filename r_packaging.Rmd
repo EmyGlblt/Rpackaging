@@ -9,11 +9,11 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Summary (Emy)
+# Summary (Emy)
 
 Here are some questions to ask yourself when you are interested in coding and/or using functions:
 
-*Why?* what do you need? -> If you need to tailor some existing functions, if you are going to use them many times.
+*Why?* what do you need? -> If you need to tailor some existing functions, if you are going to use them many times. If you want to save time and have a way to standardize your coding with existing one.
 
 *Who* is it for? -> Are the changes or the created function of any use for other coders or anyone working in similar field?
 
@@ -21,8 +21,10 @@ Here are some questions to ask yourself when you are interested in coding and/or
 
 *How*?-> We are going to dig into the steps of creating a package!
 
+Here we go beyond the agreed knowledge that everyone knows broadly what is a package and how to install new packages: using `install.packages("x")` and then `library(X)`.
 
-### Presentation: Motivation and use (ARTHUR)
+
+## Presentation: Motivation and use (ARTHUR)
 
 
 One of the main principles in good coding practice is 'do not repeat yourself'. There are some options to achieve these goal. One of them is to create a loop, when your task is only to repeat a procedure with different input. Other option is to create a custom function, which allow you to modify predefined places of your code using arguments. 
@@ -34,7 +36,7 @@ Therefore, for a project you are working, you can create as much functions you n
 
 
 
-### Pros and cons to create a package
+## Pros and cons to create a package
 Since you have some custom functions, you might wonder if it is a good idea to create a package. 
 
 Pros:   
@@ -50,24 +52,113 @@ Cons:
 
 
  
-### How to create a package:  
+## How to create a package:  
 
- 
-#### Package components (Rfiles, metadata and dependencies)  (Emy)
+### Package components, what do we need? (Rfiles, metadata and dependencies)  (Emy)
+*1 - R code* : 
+Let's consider few function for raster and image modification. First, our new functions and worflow will depend on other packages that we need to load:
+```{r, message=FALSE, warning=FALSE}
+library(spatstat)
+library(lattice)
+```
+
+Next, we want to create an image that display a gradient along the area of interest. Thus set the coordinates of our gridded area (resolution) and define a function which will evaluate the values $v1$ across our space. The last step is to create the image using `as.im()`.
+
+```{r, message=FALSE, warning=FALSE}
+set.seed(113)
+XY = expand.grid(seq(0, 100, 1), seq(0, 100, 1))
+X = XY[,1]
+Y = XY[,2]
+
+v1 = (X - 30)^2 + (Y + 80)^2 - 0.5*X*Y
+v1 = -1*scale(v1)
+
+raster.im = as.im(data.frame(x = X, y = Y, z = v1))
+plot(raster.im)
+
+```
+
+
+These different steps can be combined in a function, where we can play with $x$ and $y$ to establish a different gradient. Let's call this function `CreateGradient`
+```{r, message=FALSE, warning=FALSE}
+### create image/raster
+CreateGradient = function(x, y){
+
+  XY = expand.grid(seq(0, 100, 1), seq(0, 100, 1))
+  X = XY[,1]
+  Y = XY[,2]
+  
+  v1 = (X - x)^2 + (Y + y)^2 - 0.5*X*Y
+  v1 = -1*scale(v1)
+  
+  raster.im = as.im(data.frame(x = X, y = Y, z = v1))
+  #plot(raster.im)
+  
+  return(raster.im)
+}
+
+Rast1 = CreateGradient(x=30, y=80)
+plot(Rast1)
+```
+
+If we change the value of $x$ and $y$, we see the gradient can have a different direction.
+```{r, message=FALSE, warning=FALSE}
+## transpose image
+Rast2 = CreateGradient(x=-30, y=80)
+plot(Rast2)
+```
+
+However, we could also want to change the gradient based on the same initial image. For eample we can create a function able to transpose the image we see according to an horizontal axis. Let's call this function `TransposeImage`:
+```{r, message=FALSE, warning=FALSE}
+TransposeImage = function(Rast){
+  
+  mat1 <- apply(Rast$v, 2, rev)
+  rast.trasnp = as.im(mat1)
+
+  return(rast.trasnp)
+}
+
+Rast2.tr = TransposeImage(Rast2)
+plot(Rast2.tr)
+```
+
+Finally, we can create a function that modifies the shape of the gradient by playing with $x$ and $y$ input values in the function `WiggleImage`:
+```{r, message=FALSE, warning=FALSE}
+WiggleImage = function(Rast, x, y){
+  Rast.w = Rast
+  
+  XY = expand.grid(seq(0, 100, 1), seq(0, 100, 1))
+  X = XY[,1]
+  Y = XY[,2]
+  
+  Rast.w$v = Rast.w$v + x*X + y*Y
+  
+  return(Rast.w)
+}
+
+par(mfrow=c(1,2))
+Rast_change = WiggleImage(Rast = Rast1, x = -0.1, y = 0.6)
+plot(Rast_change)
+
+Rast_change2 = WiggleImage(Rast = Rast1, x = 1, y = -10)
+plot(Rast_change2)
+```
+Now, we have 3 functions to create our package! Let's call it `Gradients`.
+
 DESCRIPTION file
 R/ directory for R files that contain your functions
 NAMESPACE file (you don’t need to manually create this)
 
  
-#### Documentation (Emy)
+### Documentation (Emy)
 
 
-#### Maintenance and release + CRAN checking  
+## Maintenance and release + CRAN checking  
 
 #### Testing  
 
 
-#### Summary of resources
+# Summary of resources
 
 https://r-pkgs.org/description.html
 https://rpubs.com/emitanaka/rladies-lagos-paris-2023
