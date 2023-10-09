@@ -68,3 +68,6 @@ NAMESPACE file (you don’t need to manually create this)
 
 
 #### Summary of resources
+
+https://r-pkgs.org/description.html
+https://rpubs.com/emitanaka/rladies-lagos-paris-2023
