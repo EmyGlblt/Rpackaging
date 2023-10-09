@@ -9,7 +9,18 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Summary
+## Summary (Emy)
+
+Here are some questions to ask yourself when you are interested in coding and/or using functions:
+
+*Why?* what do you need? -> If you need to tailor some existing functions, if you are going to use them many times.
+
+*Who* is it for? -> Are the changes or the created function of any use for other coders or anyone working in similar field?
+
+*Where*? -> do you need a place to share code and make it available. github is an option. CRAN make it more accessible.
+
+*How*?-> We are going to dig into the steps of creating a package!
+
 
 ### Presentation: Motivation and use (ARTHUR)
 
@@ -40,10 +51,20 @@ Cons:
 
  
 ### How to create a package:  
+
  
-#### Documentation  
+#### Package components (Rfiles, metadata and dependencies)  (Emy)
+DESCRIPTION file
+R/ directory for R files that contain your functions
+NAMESPACE file (you don’t need to manually create this)
+
  
-#### Package components (Rfiles, metadata and dependencies)  
+#### Documentation (Emy)
+
+
 #### Maintenance and release + CRAN checking  
+
 #### Testing  
+
+
 #### Summary of resources
