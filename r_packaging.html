@@ -359,8 +359,42 @@ display: none;
 
 <div id="summary" class="section level2">
 <h2>Summary</h2>
-<div id="presentation-motivation-and-use" class="section level3">
-<h3>Presentation: Motivation and use</h3>
+<div id="presentation-motivation-and-use-arthur" class="section level3">
+<h3>Presentation: Motivation and use (ARTHUR)</h3>
+<p>One of the main principles in good coding practice is ‘do not repeat
+yourself’. There are some options to achieve these goal. One of them is
+to create a loop, when your task is only to repeat a procedure with
+different input. Other option is to create a custom function, which
+allow you to modify predefined places of your code using arguments.</p>
+<p>When we are creating a analysis or cleaning data it could be useful
+to write a function and let it in a separated file. Then, you only need
+to add a <code>source()</code> in your script to load your custom
+function in the R environment and you are able use it across your
+script. Using this approach will make your code more readable and tidy,
+because instead of several lines of code to do a step of your analysis,
+you now have only few lines of code using your custom function.
+Moreover, you can use it several times in your script without need to
+copy and paste your code and change few characters.</p>
+<p>Therefore, for a project you are working, you can create as much
+functions you need, and load it your scripts using the
+<code>source()</code> function. However, if you have created a set of
+functions that could be useful in other projects or for other people, it
+could be nice to create an R package. Which could also let your coding
+more susceptible to errors.</p>
+</div>
+<div id="pros-and-cons-to-create-a-package" class="section level3">
+<h3>Pros and cons to create a package</h3>
+<p>Since you have some custom functions, you might wonder if it is a
+good idea to create a package.</p>
+<p>Pros:<br />
+- Easy access to functions that you’ve created (it is easier to add a
+<code>library()</code> call in your script than a
+<code>source()</code>)<br />
+- Your functions have help pages - Your functions could be used by
+others - Users could give feedback to your function</p>
+<p>Cons:<br />
+- Could be time consuming to create and maintain a package - Users could
+give feedback to your functions (bugs)</p>
 </div>
 <div id="how-to-create-a-package" class="section level3">
 <h3>How to create a package:</h3>
