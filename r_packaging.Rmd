@@ -38,7 +38,7 @@ br { color: brown }
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Summary
+# Presentation: Motivation and use (ARTHUR)
   
 Here are some questions to ask yourself when you are interested in coding and/or using functions:
   
@@ -61,7 +61,6 @@ Here we go beyond the agreed knowledge that everyone knows broadly what is a pac
   
 <br><br><br><br>
 
-## Presentation: Motivation and use (ARTHUR)
 
   
 One of the main principles in good coding practice is 'do not repeat yourself'. There are some options to achieve these goal. One of them is to create a loop, when your task is only to repeat a procedure with different input. Other option is to create a custom function, which allow you to modify predefined places of your code using arguments. 
@@ -88,10 +87,83 @@ Cons:
 
 <br><br><br><br>
 
-# How to create a package:  
+# Package structure:  (Emy)
+## What compose the R package?
   
-## Package components, what do we need? (Emy)  
-### R code :   
+* DESCRIPTION file: This is the metadata for the package. It contains:
+  + Package name
+  + Title and description
+  + Authors
+  + Dependencies (depends, imports, suggests)
+  + Licensing
+  + Version number
+  + Bug report location, and so on
+  
+* R/ directory for R files that contain your functions
+  
+* NAMESPACE file which specifies the function that compose your package and what imports functions from othe rpacages are needed.
+  
+These are created using:  `usethis::create_package()`
+  
+* Other optional information such as data etc..
+  
+   
+The Description file is a simple file format called DCF, the Debian control format. It is created using `usethis::create_package("mypackage")`.
+For example, we will set up the different fields:
+
+:::{.blackbox data-latex=""}
+Package: Gradients
+
+Title: Creates a gradient image and modify it. *only one line*
+
+Version: 0.0.0.9000 *consider carefully the version*
+
+Authors@R: 
+    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+
+Description: Gradients creates an customized image that display a gradient. Other 
+functionalities include modifying the radient direction or stepness as well as transposing directly the gradient image. *What the package does (one paragraph)*
+
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+
+Encoding: UTF-8
+
+Roxygen: list(markdown = TRUE)
+
+RoxygenNote: 7.2.3
+:::
+
+<br><br><br><br>
+
+## Documentation
+  
+A good package needs good documentation, for that purpose we already talked about the description file above. Another important document is the vignette that can be created using: `usethis::use_vignette("my-vignette")`. The vignette is more informative of the workflow and the purpose of your functions.
+
+  
+### User friendly documentation:  
+It is helpful to use the *roxygen2* package to manually adapt the documentation files. 
+Roxygen comment lines always start with #'. and all the roxygen2 comments preceding a function are collectively called a block. Blocks are broken up by tags, which look like @tagName tagValue. A block can contain text before the first tag which is called the introduction. By default, each block generates a single documentation topic, i.e. a single .Rd file6 in the man/ directory.
+Some common tag include: @params, @returns, @description, @seealso, @examples, and @export
+
+:::{.blackbox data-latex=""}
+#' @params x,y integer values.  
+#'  
+#' @returns An object of type image.  
+#'  
+#' @description  
+#'  
+#' @seealso  
+#'   [WiggleImage()] to modify the gradients direction and steepness.  
+#'   [TransposeImage] to transpose the image.  
+#'  
+#' @examples  
+#'   Rast2 = CreateGradient(x=-30, y=80)  
+#'   plot(Rast2)  
+:::
+
+## R code :   
 Let's consider few function for raster and image modification. First, our new functions and worflow will depend on other packages that we need to load:
 ```{r, message=FALSE, warning=FALSE}
 library(spatstat)
@@ -182,84 +254,9 @@ The function created can be organize into one or multiple files if needed.
 
 
 
-### What compose the R package?
-  
-* DESCRIPTION file: This is the metadata for the package. It contains:
-  + Package name
-  + Title and description
-  + Authors
-  + Dependencies (depends, imports, suggests)
-  + Licensing
-  + Version number
-  + Bug report location, and so on
-  
-* R/ directory for R files that contain your functions
-  
-* NAMESPACE file which specifies the function that compose your package and what imports functions from othe rpacages are needed.
-  
-These are created using:  `usethis::create_package()`
-  
-* Other optional information such as data etc..
-  
-   
-The Description file is a simple file format called DCF, the Debian control format. It is created using `usethis::create_package("mypackage")`.
-For example, we will set up the different fields:
-
-:::{.blackbox data-latex=""}
-Package: Gradients
-
-Title: Creates a gradient image and modify it. *only one line*
-
-Version: 0.0.0.9000 *consider carefully the version*
-
-Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-
-Description: Gradients creates an customized image that display a gradient. Other 
-functionalities include modifying the radient direction or stepness as well as transposing directly the gradient image. *What the package does (one paragraph)*
-
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
-
-Encoding: UTF-8
-
-Roxygen: list(markdown = TRUE)
-
-RoxygenNote: 7.2.3
-:::
-
-<br><br><br><br>
-
-## Documentation
-  
-A good package needs good documentation, for that purpose we already talked about the description file above. Another important document is the vignette that can be created using: `usethis::use_vignette("my-vignette")`. The vignette is more informative of the workflow and the purpose of your functions.
-
-  
-### User friendly documentation:  
-It is helpful to use the *roxygen2* package to manually adapt the documentation files. 
-Roxygen comment lines always start with #'. and all the roxygen2 comments preceding a function are collectively called a block. Blocks are broken up by tags, which look like @tagName tagValue. A block can contain text before the first tag which is called the introduction. By default, each block generates a single documentation topic, i.e. a single .Rd file6 in the man/ directory.
-Some common tag include: @params, @returns, @description, @seealso, @examples, and @export
-
-:::{.blackbox data-latex=""}
-#' @params x,y integer values.  
-#'  
-#' @returns An object of type image.  
-#'  
-#' @description  
-#'  
-#' @seealso  
-#'   [WiggleImage()] to modify the gradients direction and steepness.  
-#'   [TransposeImage] to transpose the image.  
-#'  
-#' @examples  
-#'   Rast2 = CreateGradient(x=-30, y=80)  
-#'   plot(Rast2)  
-:::
-
 <br><br><br><br>  
 
-## Maintenance and release + CRAN checking  
+# Creation and Maintenance (Arthur)
 
 Main packages needed for package development:
 * devtools: Creation - building o the package
@@ -278,7 +275,7 @@ knitr::include_graphics("install-load.png")
 
 <br><br><br><br>
 
-### Step by step
+## Step by step
 Whole R package development workflow:
 
 * `available::available("pkgname")` # check if package name is available (if planning to publish publicly)
@@ -310,10 +307,7 @@ Write some test
 * `usethis::use_pkgdown()` if not using github pages
 
 
-   
-<br><br><br><br>
-
-## Testing  
+## Bugs and recommendations
 
 
 <br><br><br><br>
@@ -322,3 +316,5 @@ Write some test
 https://r-pkgs.org/description.html
 
 https://rpubs.com/emitanaka/rladies-lagos-paris-2023
+
+https://github.com/EmyGlblt/Rpackaging

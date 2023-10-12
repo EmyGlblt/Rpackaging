@@ -189,8 +189,9 @@ br { color: brown }
 </style>
 
 </style>
-<div id="summary" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Summary</h1>
+<div id="presentation-motivation-and-use-arthur" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Presentation:
+Motivation and use (ARTHUR)</h1>
 <p>Here are some questions to ask yourself when you are interested in
 coding and/or using functions:</p>
 <div class="center">
@@ -211,9 +212,6 @@ going to dig into the steps of creating a package!</p>
 what is a package and how to install new packages: using
 <code>install.packages(&quot;x&quot;)</code> and then <code>library(X)</code>.</p>
 <p><br><br><br><br></p>
-<div id="presentation-motivation-and-use-arthur" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> Presentation:
-Motivation and use (ARTHUR)</h2>
 <p>One of the main principles in good coding practice is ‘do not repeat
 yourself’. There are some options to achieve these goal. One of them is
 to create a loop, when your task is only to repeat a procedure with
@@ -234,9 +232,8 @@ functions you need, and load it your scripts using the
 functions that could be useful in other projects or for other people, it
 could be nice to create an R package. Which could also let your coding
 more susceptible to errors.</p>
-</div>
-<div id="pros-and-cons-to-create-a-package" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> Pros and cons to
+<div id="pros-and-cons-to-create-a-package" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Pros and cons to
 create a package</h2>
 <p>Since you have some custom functions, you might wonder if it is a
 good idea to create a package.</p>
@@ -252,14 +249,95 @@ give feedback to your functions (bugs)</p>
 <p><br><br><br><br></p>
 </div>
 </div>
-<div id="how-to-create-a-package" class="section level1" number="2">
-<h1><span class="header-section-number">2</span> How to create a
-package:</h1>
-<div id="package-components-what-do-we-need-emy" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Package components,
-what do we need? (Emy)</h2>
-<div id="r-code" class="section level3" number="2.1.1">
-<h3><span class="header-section-number">2.1.1</span> R code :</h3>
+<div id="package-structure-emy" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Package structure:
+(Emy)</h1>
+<div id="what-compose-the-r-package" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> What compose the R
+package?</h2>
+<ul>
+<li><p>DESCRIPTION file: This is the metadata for the package. It
+contains:</p>
+<ul>
+<li>Package name</li>
+<li>Title and description</li>
+<li>Authors</li>
+<li>Dependencies (depends, imports, suggests)</li>
+<li>Licensing</li>
+<li>Version number</li>
+<li>Bug report location, and so on</li>
+</ul></li>
+<li><p>R/ directory for R files that contain your functions</p></li>
+<li><p>NAMESPACE file which specifies the function that compose your
+package and what imports functions from othe rpacages are
+needed.</p></li>
+</ul>
+<p>These are created using: <code>usethis::create_package()</code></p>
+<ul>
+<li>Other optional information such as data etc..</li>
+</ul>
+<p>The Description file is a simple file format called DCF, the Debian
+control format. It is created using
+<code>usethis::create_package(&quot;mypackage&quot;)</code>. For example, we will
+set up the different fields:</p>
+<div class="blackbox">
+<p>Package: Gradients</p>
+<p>Title: Creates a gradient image and modify it. <em>only one
+line</em></p>
+<p>Version: 0.0.0.9000 <em>consider carefully the version</em></p>
+<p><a href="mailto:Authors@R" class="email">Authors@R</a>:
+person(“First”, “Last”, , “<a href="mailto:first.last@example.com" class="email">first.last@example.com</a>”, role = c(“aut”, “cre”),
+comment = c(ORCID = “YOUR-ORCID-ID”))</p>
+<p>Description: Gradients creates an customized image that display a
+gradient. Other functionalities include modifying the radient direction
+or stepness as well as transposing directly the gradient image. <em>What
+the package does (one paragraph)</em></p>
+<p>License: <code>use_mit_license()</code>,
+<code>use_gpl3_license()</code> or friends to pick a license</p>
+<p>Encoding: UTF-8</p>
+<p>Roxygen: list(markdown = TRUE)</p>
+<p>RoxygenNote: 7.2.3</p>
+</div>
+<p><br><br><br><br></p>
+</div>
+<div id="documentation" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Documentation</h2>
+<p>A good package needs good documentation, for that purpose we already
+talked about the description file above. Another important document is
+the vignette that can be created using:
+<code>usethis::use_vignette(&quot;my-vignette&quot;)</code>. The vignette is more
+informative of the workflow and the purpose of your functions.</p>
+<div id="user-friendly-documentation" class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> User friendly
+documentation:</h3>
+<p>It is helpful to use the <em>roxygen2</em> package to manually adapt
+the documentation files. Roxygen comment lines always start with #’. and
+all the roxygen2 comments preceding a function are collectively called a
+block. Blocks are broken up by tags, which look like <span class="citation">@tagName</span> tagValue. A block can contain text
+before the first tag which is called the introduction. By default, each
+block generates a single documentation topic, i.e. a single .Rd file6 in
+the man/ directory. Some common tag include: <span class="citation">@params</span>, <span class="citation">@returns</span>,
+<span class="citation">@description</span>, <span class="citation">@seealso</span>, <span class="citation">@examples</span>, and <span class="citation">@export</span></p>
+<div class="blackbox">
+<p>#’ <span class="citation">@params</span> x,y integer values.<br />
+#’<br />
+#’ <span class="citation">@returns</span> An object of type image.<br />
+#’<br />
+#’ <span class="citation">@description</span><br />
+#’<br />
+#’ <span class="citation">@seealso</span><br />
+#’ [WiggleImage()] to modify the gradients direction and
+steepness.<br />
+#’ [TransposeImage] to transpose the image.<br />
+#’<br />
+#’ <span class="citation">@examples</span><br />
+#’ Rast2 = CreateGradient(x=-30, y=80)<br />
+#’ plot(Rast2)</p>
+</div>
+</div>
+</div>
+<div id="r-code" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> R code :</h2>
 <p>Let’s consider few function for raster and image modification. First,
 our new functions and worflow will depend on other packages that we need
 to load:</p>
@@ -349,96 +427,12 @@ gradient by playing with <span class="math inline">\(x\)</span> and
 <p>Now, we have 3 functions to create our package! Let’s call it
 <code>Gradients</code>. The function created can be organize into one or
 multiple files if needed.</p>
-</div>
-<div id="what-compose-the-r-package" class="section level3" number="2.1.2">
-<h3><span class="header-section-number">2.1.2</span> What compose the R
-package?</h3>
-<ul>
-<li><p>DESCRIPTION file: This is the metadata for the package. It
-contains:</p>
-<ul>
-<li>Package name</li>
-<li>Title and description</li>
-<li>Authors</li>
-<li>Dependencies (depends, imports, suggests)</li>
-<li>Licensing</li>
-<li>Version number</li>
-<li>Bug report location, and so on</li>
-</ul></li>
-<li><p>R/ directory for R files that contain your functions</p></li>
-<li><p>NAMESPACE file which specifies the function that compose your
-package and what imports functions from othe rpacages are
-needed.</p></li>
-</ul>
-<p>These are created using: <code>usethis::create_package()</code></p>
-<ul>
-<li>Other optional information such as data etc..</li>
-</ul>
-<p>The Description file is a simple file format called DCF, the Debian
-control format. It is created using
-<code>usethis::create_package(&quot;mypackage&quot;)</code>. For example, we will
-set up the different fields:</p>
-<div class="blackbox">
-<p>Package: Gradients</p>
-<p>Title: Creates a gradient image and modify it. <em>only one
-line</em></p>
-<p>Version: 0.0.0.9000 <em>consider carefully the version</em></p>
-<p><a href="mailto:Authors@R" class="email">Authors@R</a>:
-person(“First”, “Last”, , “<a href="mailto:first.last@example.com" class="email">first.last@example.com</a>”, role = c(“aut”, “cre”),
-comment = c(ORCID = “YOUR-ORCID-ID”))</p>
-<p>Description: Gradients creates an customized image that display a
-gradient. Other functionalities include modifying the radient direction
-or stepness as well as transposing directly the gradient image. <em>What
-the package does (one paragraph)</em></p>
-<p>License: <code>use_mit_license()</code>,
-<code>use_gpl3_license()</code> or friends to pick a license</p>
-<p>Encoding: UTF-8</p>
-<p>Roxygen: list(markdown = TRUE)</p>
-<p>RoxygenNote: 7.2.3</p>
-</div>
 <p><br><br><br><br></p>
 </div>
 </div>
-<div id="documentation" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Documentation</h2>
-<p>A good package needs good documentation, for that purpose we already
-talked about the description file above. Another important document is
-the vignette that can be created using:
-<code>usethis::use_vignette(&quot;my-vignette&quot;)</code>. The vignette is more
-informative of the workflow and the purpose of your functions.</p>
-<div id="user-friendly-documentation" class="section level3" number="2.2.1">
-<h3><span class="header-section-number">2.2.1</span> User friendly
-documentation:</h3>
-<p>It is helpful to use the <em>roxygen2</em> package to manually adapt
-the documentation files. Roxygen comment lines always start with #’. and
-all the roxygen2 comments preceding a function are collectively called a
-block. Blocks are broken up by tags, which look like <span class="citation">@tagName</span> tagValue. A block can contain text
-before the first tag which is called the introduction. By default, each
-block generates a single documentation topic, i.e. a single .Rd file6 in
-the man/ directory. Some common tag include: <span class="citation">@params</span>, <span class="citation">@returns</span>,
-<span class="citation">@description</span>, <span class="citation">@seealso</span>, <span class="citation">@examples</span>, and <span class="citation">@export</span></p>
-<div class="blackbox">
-<p>#’ <span class="citation">@params</span> x,y integer values.<br />
-#’<br />
-#’ <span class="citation">@returns</span> An object of type image.<br />
-#’<br />
-#’ <span class="citation">@description</span><br />
-#’<br />
-#’ <span class="citation">@seealso</span><br />
-#’ [WiggleImage()] to modify the gradients direction and
-steepness.<br />
-#’ [TransposeImage] to transpose the image.<br />
-#’<br />
-#’ <span class="citation">@examples</span><br />
-#’ Rast2 = CreateGradient(x=-30, y=80)<br />
-#’ plot(Rast2)</p>
-</div>
-<p><br><br><br><br></p>
-</div>
-</div>
-<div id="maintenance-and-release-cran-checking" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Maintenance and
-release + CRAN checking</h2>
+<div id="creation-and-maintenance-arthur" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Creation and
+Maintenance (Arthur)</h1>
 <p>Main packages needed for package development: * devtools: Creation -
 building o the package * usethis: help with documentation, testing and
 broadcast * roxygen2: help with the documentation set up * pkgdown: *
@@ -454,8 +448,8 @@ A caption
 </p>
 </div>
 <p><br><br><br><br></p>
-<div id="step-by-step" class="section level3" number="2.3.1">
-<h3><span class="header-section-number">2.3.1</span> Step by step</h3>
+<div id="step-by-step" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Step by step</h2>
 <p>Whole R package development workflow:</p>
 <ul>
 <li><code>available::available(&quot;pkgname&quot;)</code> # check if package name
@@ -497,14 +491,14 @@ review changes carefully)</li>
 pkgdown website on github</li>
 <li><code>usethis::use_pkgdown()</code> if not using github pages</li>
 </ul>
-<p><br><br><br><br></p>
 </div>
-</div>
-<div id="testing" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> Testing</h2>
+<div id="bugs-and-recommendations" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Bugs and
+recommendations</h2>
 <p><br><br><br><br> # Summary of resources</p>
 <p><a href="https://r-pkgs.org/description.html" class="uri">https://r-pkgs.org/description.html</a></p>
 <p><a href="https://rpubs.com/emitanaka/rladies-lagos-paris-2023" class="uri">https://rpubs.com/emitanaka/rladies-lagos-paris-2023</a></p>
+<p><a href="https://github.com/EmyGlblt/Rpackaging" class="uri">https://github.com/EmyGlblt/Rpackaging</a></p>
 </div>
 </div>
 </div><!-- /.entry-content -->

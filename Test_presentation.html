@@ -7,7 +7,6 @@
     <meta name="date" content="2023-10-12" />
     <script src="Test_presentation_files/header-attrs-2.25/header-attrs.js"></script>
     <link href="Test_presentation_files/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="Test_presentation_files/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="Test_presentation_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
   </head>
   <body>
@@ -27,14 +26,330 @@ class: center, middle, inverse, title-slide
 ---
 
 
+&lt;style type="text/css"&gt;
+.blackbox {
+  padding: 1em;
+  background: lightgray;
+  color: grey;
+  border: 2px solid darkorange;
+  border-radius: 10px;
+}
+.center {
+  text-align: center;
+}
+/* Two-column layout */
+.left-column {
+  color: #777;
+  width: 20%;
+  height: 92%;
+  float: left;
+}
+.left-column h2:last-of-type, .left-column h3:last-child {
+  color: #000;
+}
+.right-column {
+  width: 75%;
+  float: right;
+  padding-top: 1em;
+}
+.pull-left {
+  float: left;
+  width: 47%;
+}
+.pull-right {
+  float: right;
+  width: 47%;
+}
+.pull-right + * {
+  clear: both;
+}
+
+/* Metropilis style*/
+.remark-slide-content {
+  background-color: #FAFAFA;
+  border-top: 80px solid #23373B;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.5;
+  padding: 1em 2em 1em 2em
+}
+
+.title-slide .inverse .remark-slide-content {
+  background-color: #FAFAFA;
+}
+
+.inverse {
+  background-color: #23373B;
+  text-shadow: none;
+}
+
+/* Removes colored bar from top of the slide resulting in a clear slide */
+.clear{
+  border-top: 0px solid #FAFAFA;
+}
+
+h1 {
+  font-weight: normal;
+  margin-top: -95px;
+  margin-left: -00px;
+  color: #FAFAFA;
+}
+
+h2, h3, h4 {
+  padding-top: -15px;
+  padding-bottom: 00px;
+  color: #1A292C;
+  text-shadow: none;
+  font-weight: 400;
+  text-align: left;
+  margin-left: 00px;
+  margin-bottom: -10px;
+}
+
+.remark-slide-content h1 {
+  font-size: 45px;
+}
+
+.remark-slide-content h2 {
+  font-size: 35px;
+}
+
+.remark-slide-content h3 {
+  font-size: 30px;
+}
+
+.left-column h2, .left-column h3, .left-column h4 {
+  color: #777;
+}
+
+.left-column h2:last-of-type, .left-column h3:last-child {
+  color: #1A292C;
+}
+
+.title-slide {
+  background-color: #FAFAFA;
+  border-top: 80px solid #FAFAFA;
+}
+
+.title-slide h1  {
+  color: #1A292C;
+  font-size: 40px;
+  text-shadow: none;
+  font-weight: 400;
+  text-align: left;
+  margin-left: 15px;
+  padding-top: 80px;
+}
+.title-slide h2  {
+  margin-top: -25px;
+  padding-bottom: -20px;
+  color: #1A292C;
+  text-shadow: none;
+  font-weight: 300;
+  font-size: 35px;
+  text-align: left;
+  margin-left: 15px;
+}
+.title-slide h3  {
+  color: #1A292C;
+  text-shadow: none;
+  font-weight: 300;
+  font-size: 25px;
+  text-align: left;
+  margin-left: 15px;
+  margin-bottom: -30px;
+}
+
+hr, .title-slide h2::after, .mline h1::after {
+  content: '';
+  display: block;
+  border: none;
+  background-color: #EB811B;
+  color: #EB811B;
+  height: 1px;
+}
+
+hr, .mline h1::after {
+  margin: 1em 15px 0 15px;
+}
+
+.title-slide h2::after {
+  margin: 10px 15px 35px 0;
+}
+
+.mline h1::after {
+  margin: 10px 15px 0 15px;
+}
+
+.remark-slide-number {
+  font-size: 13pt;
+  color: #272822;
+  opacity: 1;
+}
+.inverse .remark-slide-number {
+  font-size: 13pt;
+  color: #FAFAFA;
+  opacity: 1;
+}
+
+/* turns off slide numbers for title page: https://github.com/gnab/remark/issues/298 */
+.title-slide .remark-slide-number {
+  display: none;
+}
+
+.remark-inline-code {
+  /* background: #F5F5F5; /* lighter */
+  background: #e7e8e2; /* darker */
+  border-radius: 3px;
+  padding: 4px;
+}
+
+.code10 .remark-code {
+  font-size: 10%;
+}
+
+.code20 .remark-code {
+  font-size: 20%;
+}
+
+.code30 .remark-code {
+  font-size: 30%;
+}
+
+.code40 .remark-code {
+  font-size: 40%;
+}
+
+.code50 .remark-code {
+  font-size: 50%;
+}
+
+.code60 .remark-code {
+  font-size: 60%;
+}
+
+.code70 .remark-code {
+  font-size: 70%;
+}
+
+.code80 .remark-code {
+  font-size: 80%;
+}
+
+.code90 .remark-code {
+  font-size: 90%;
+}
+
+.code100 .remark-code {
+  font-size: 100%;
+}
+
+.font10 {
+  font-size: 10%;
+}
+
+.font20 {
+  font-size: 20%;
+}
+
+.font30 {
+  font-size: 30%;
+}
+
+.font40 {
+  font-size: 40%;
+}
+
+.font50 {
+  font-size: 50%;
+}
+
+.font60 {
+  font-size: 60%;
+}
+
+.font70 {
+  font-size: 70%;
+}
+
+.font80 {
+  font-size: 80%;
+}
+
+.font90 {
+  font-size: 90%;
+}
+
+.font100 {
+  font-size: 100%;
+}
+
+.font110 {
+  font-size: 110%;
+}
+
+.font120 {
+  font-size: 120%;
+}
+
+.font130 {
+  font-size: 130%;
+}
+
+.font140 {
+  font-size: 140%;
+}
+
+.font150 {
+  font-size: 150%;
+}
+
+.font160 {
+  font-size: 160%;
+}
+.font170 {
+  font-size: 170%;
+}
+.font180 {
+  font-size: 180%;
+}
+.font190 {
+  font-size: 190%;
+}
+.font200 {
+  font-size: 200%;
+}
+
+/* Various left and right split columns*/
+
+.pull-left-70 { float: left; width: 66.5%; }
+.pull-right-30 { float: right; width: 28.5%; }
+.pull-right-30 + * { clear: both; }
+
+.pull-left-60 { float: left; width: 57%; }
+.pull-right-40 { float: right; width: 38%; }
+.pull-right-40 + * { clear: both; }
+
+.pull-left-50 { float: left; width: 47.5%; }
+.pull-right-50 { float: right; width: 47.5%; }
+.pull-right-50 + * { clear: both; }
+
+.pull-left-40 { float: left; width: 38%; }
+.pull-right-60 { float: right; width: 57%; }
+.pull-right-60 + * { clear: both; }
+
+.pull-left-30 { float: left; width: 28.5%; }
+.pull-right-70 { float: right; width: 66.5%; }
+.pull-right-70 + * { clear: both; }
+
+&lt;/style&gt;
 
 
 
-# Summary
 
+#  Presentation: Motivation and use (ARTHUR)
 `$${\color{red}Why? \space what \space do \space you \space need? }$$`
       &amp;rarr; If you need to tailor some existing functions, if you are going to use them many times. If you want to save time and have a way to standardize your coding with existing one.
-  
   
 `$${\color{orange}Who \space is \space it \space for?}$$`
       &amp;rarr; Are the changes or the created function of any use for other coders or anyone working in similar field?
@@ -45,7 +360,8 @@ class: center, middle, inverse, title-slide
 `$${\color{green}How?}$$` 
       &amp;rarr; We are going to dig into the steps of creating a package!
 
-
+---
+# Presentation: Motivation and use (ARTHUR)
 Here we go beyond the agreed knowledge that everyone knows broadly what is a package and how to install new packages: using `install.packages("x")` and then `library(X)`.
   
   
@@ -72,11 +388,63 @@ Cons:
 - Could be time consuming to create and maintain a package
 - Users could give feedback to your functions (bugs)
 
+
+
+
 ---
-# How to create a package:  
+# Package structure:  (Emy)
 ---
 
-# Package components, what do we need? (Emy)  
+What compose the R package?
+  
+* DESCRIPTION file: This is the metadata for the package. It contains:
+  + Package name
+  + Title and description
+  + Authors
+  + Dependencies (depends, imports, suggests)
+  + Licensing
+  + Version number
+  + Bug report location, and so on
+  
+* R/ directory for R files that contain your functions
+  
+* NAMESPACE file which specifies the function that compose your package and what imports functions from othe rpacages are needed.
+  
+These are created using:  `usethis::create_package()`
+  
+* Other optional information such as data etc..
+---
+
+The Description file is a simple file format called DCF, the Debian control format. It is created using `usethis::create_package("mypackage")`.
+For example, we will set up the different fields:
+
+.blackbox[
+.font60[Package: Gradients
+
+Title: Creates a gradient image and modify it. *only one line*
+
+Version: 0.0.0.9000 *consider carefully the version*
+
+Authors@R: 
+    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+
+Description: Gradients creates an customized image that display a gradient. Other 
+functionalities include modifying the radient direction or stepness as well as transposing directly the gradient image. *What the package does (one paragraph)*
+
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+
+Encoding: UTF-8
+
+Roxygen: list(markdown = TRUE)
+
+RoxygenNote: 7.2.3]
+]
+
+---
+
+
 ### R code :   
 Let's consider few function for raster and image modification. First, our new functions and worflow will depend on other packages that we need to load:
 
@@ -88,7 +456,7 @@ library(lattice)
 Next, we want to create an image that display a gradient along the area of interest. Thus set the coordinates of our gridded area (resolution) and define a function which will evaluate the values `\(v1\)` across our space. The last step is to create the image using `as.im()`.
 ---
 
-.pull-left[
+.pull-left-60[
 
 ```r
 set.seed(113)
@@ -107,13 +475,106 @@ plot(raster.im)
 ```
 ]
 
-.pull-right[
-&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-3-1.png" width="90%" /&gt;
+.pull-right-40[
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-4-1.png" width="80%" /&gt;
 ]
+
+---
+# Gradientfunction
+
+---
+# Transposefunction
+
+
+---
+# wigglefunction
+
+
+---
+
+# Creation and Maintenance (Arthur)
+
+---
+
+# Creation and Maintenance (Arthur)
+
+Main packages needed for package development:
+* devtools: Creation - building o the package
+* usethis: help with documentation, testing and broadcast
+* roxygen2: help with the documentation set up
+* pkgdown:
+* testthat: testing
+
+! You also need a system builder ! Make sure Rtools is installed which is done differently depending on your system (windows, MacOS, Linux).
+
+---
+# Step by step
+Whole R package development workflow:
+
+* `available::available("pkgname")` # check if package name is available (if planning to publish publicly)
+* `usethis::create_package("pkgname")` # create the package
+* `usethis::use_git()` # set up version control
+* `usethis::use_github()` # optional
+* `usethis::use_r("myfile")` # creating new R file in the R/ directory
+* `usethis::use_data_raw()` # if adding data
+* `devtools::load_all()` # try it out in the console
+* `usethis::use_package("import-pkgname")` # add package to import (or depends or suggests)
+
+
+---
+# Step by step
+Documentations:
+
+* `usethis::use_package_doc()` # add package documentation
+* `usethis::use_pipe()` # if you want to add %&gt;% from `magrittr`
+* `usethis::use_vignette("vignette-name")` # add vignette
+* `usethis::use_test()` # make test file for active R file
+
+
+
+
+---
+# Step by step
+Write some test
+
+* `devtools::test_active_file()` # test active file
+* `devtools::test()` # test whole package
+* `devtools::build()` # build vignettes
+* `devtools::install()` # to install package
+* `devtools::check()` # to build and check a package 
+* `usethis::use_readme_rmd()` # to add a README Rmd file
+* `styler::style_pkg()` # optional (commit first, then review changes carefully)
+* `usethis::use_pkgdown_github_pages()` # for setting up pkgdown website on github
+* `usethis::use_pkgdown()` if not using github pages
+
+---
+# Bugs and recommendations
+
+---
+# Summary of resources
+
+https://r-pkgs.org/description.html
+
+https://rpubs.com/emitanaka/rladies-lagos-paris-2023
+
+https://github.com/EmyGlblt/Rpackaging
+
+
+---
+
+class: center, middle
+
+.Large[Thanks!]
+
+Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
-<script>var slideshow = remark.create();
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
 if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
   window.dispatchEvent(new Event('resize'));
 });
@@ -191,7 +652,24 @@ if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
       links[i].target = '_blank';
     }
   }
-})();</script>
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
 
 <script>
 slideshow._releaseMath = function(el) {
