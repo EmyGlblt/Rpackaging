@@ -2,6 +2,11 @@
 title: "R packaging"
 author: "Emy Guilbault and Arthur Rodrigues"
 date: "2023-09-26"
+output:
+  prettydoc::html_pretty:
+    theme: hpstr
+    highlight: vignette
+    number_sections: TRUE
 
 ---
 
@@ -54,7 +59,8 @@ $${\color{green}How?}$$
 
 Here we go beyond the agreed knowledge that everyone knows broadly what is a package and how to install new packages: using `install.packages("x")` and then `library(X)`.
   
-   
+<br><br><br><br>
+
 ## Presentation: Motivation and use (ARTHUR)
 
   
@@ -79,12 +85,13 @@ Cons:
 - Could be time consuming to create and maintain a package
 - Users could give feedback to your functions (bugs)
 
+
+<br><br><br><br>
+
+# How to create a package:  
   
- 
-## How to create a package:  
-  
-### Package components, what do we need? (Emy)  
-*1 - R code* :   
+## Package components, what do we need? (Emy)  
+### R code :   
 Let's consider few function for raster and image modification. First, our new functions and worflow will depend on other packages that we need to load:
 ```{r, message=FALSE, warning=FALSE}
 library(spatstat)
@@ -175,7 +182,7 @@ The function created can be organize into one or multiple files if needed.
 
 
 
-*2- What compose the R package?*
+### What compose the R package?
   
 * DESCRIPTION file: This is the metadata for the package. It contains:
   + Package name
@@ -222,13 +229,14 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 :::
 
+<br><br><br><br>
 
-### Documentation
+## Documentation
   
 A good package needs good documentation, for that purpose we already talked about the description file above. Another important document is the vignette that can be created using: `usethis::use_vignette("my-vignette")`. The vignette is more informative of the workflow and the purpose of your functions.
 
   
-#### User friendly documentation:  
+### User friendly documentation:  
 It is helpful to use the *roxygen2* package to manually adapt the documentation files. 
 Roxygen comment lines always start with #'. and all the roxygen2 comments preceding a function are collectively called a block. Blocks are broken up by tags, which look like @tagName tagValue. A block can contain text before the first tag which is called the introduction. By default, each block generates a single documentation topic, i.e. a single .Rd file6 in the man/ directory.
 Some common tag include: @params, @returns, @description, @seealso, @examples, and @export
@@ -249,8 +257,8 @@ Some common tag include: @params, @returns, @description, @seealso, @examples, a
 #'   plot(Rast2)  
 :::
 
-  
-  
+<br><br><br><br>  
+
 ## Maintenance and release + CRAN checking  
 
 Main packages needed for package development:
@@ -268,8 +276,9 @@ knitr::include_graphics("install-load.png")
 ```
 
 
+<br><br><br><br>
 
-#### Step by step
+### Step by step
 Whole R package development workflow:
 
 * `available::available("pkgname")` # check if package name is available (if planning to publish publicly)
@@ -300,9 +309,14 @@ Write some test
 * `usethis::use_pkgdown_github_pages()` # for setting up pkgdown website on github
 * `usethis::use_pkgdown()` if not using github pages
 
-#### Testing  
+
+   
+<br><br><br><br>
+
+## Testing  
 
 
+<br><br><br><br>
 # Summary of resources
 
 https://r-pkgs.org/description.html
