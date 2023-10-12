@@ -50,6 +50,7 @@ AddNoise <- function(Rast, noise = 0.1, plot = TRUE){
   
   Rast$v <- Rast$v + add_noise
   
+  if(plot) plot(Rast, main = "AddNoise")
   Rast
 }
 
@@ -81,6 +82,6 @@ rast_img <- RandomGradient(20,20)
 set.seed(5678)
 rast_img <- RandomGradient(20,20)
 
-rast_img |> 
-  MirrorImage(direction = "horizontal") |> 
-  MirrorImage()
+
+  MirrorImage(rast_img, direction = "vertical") |> 
+    AddNoise(.001)
