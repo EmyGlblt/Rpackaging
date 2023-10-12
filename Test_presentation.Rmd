@@ -1,0 +1,104 @@
+---
+title: "R packaging"
+author: "Emy Guilbault & Arthur Rodrigues"
+date: "2023-10-12"
+output: 
+  xaringan::moon_reader:
+    css:  [default, metropolis, metropolis-fonts]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+```
+
+
+# Summary
+
+$${\color{red}Why? \space what \space do \space you \space need? }$$
+      &rarr; If you need to tailor some existing functions, if you are going to use them many times. If you want to save time and have a way to standardize your coding with existing one.
+  
+  
+$${\color{orange}Who \space is \space it \space for?}$$
+      &rarr; Are the changes or the created function of any use for other coders or anyone working in similar field?
+  
+$${\color{gold}Where?}$$ 
+      &rarr; do you need a place to share code and make it available. github is an option. CRAN make it more accessible.
+  
+$${\color{green}How?}$$ 
+      &rarr; We are going to dig into the steps of creating a package!
+
+
+Here we go beyond the agreed knowledge that everyone knows broadly what is a package and how to install new packages: using `install.packages("x")` and then `library(X)`.
+  
+  
+---
+# Presentation: Motivation and use (ARTHUR)
+
+One of the main principles in good coding practice is 'do not repeat yourself'. There are some options to achieve these goal. One of them is to create a loop, when your task is only to repeat a procedure with different input. Other option is to create a custom function, which allow you to modify predefined places of your code using arguments. 
+  
+When we are creating a analysis or cleaning data it could be useful to write a function and let it in a separated file. Then, you only need to add a `source()` in your script to load your custom function in the R environment and you are able use it across your script. Using this approach will make your code more readable and tidy, because instead of several lines of code to do a step of your analysis, you now have only few lines of code using your custom function. Moreover, you can use it several times in your script without need to copy and paste your code and change few characters. 
+  
+Therefore, for a project you are working, you can create as much functions you need, and load it your scripts using the `source()` function. However, if you have created a set of functions that could be useful in other projects or for other people, it could be nice to create an R package. Which could also let your coding more susceptible to errors. 
+  
+---
+# Pros and cons to create a package
+Since you have some custom functions, you might wonder if it is a good idea to create a package. 
+  
+Pros:   
+- Easy access to functions that you've created (it is easier to add a `library()` call in your script than a `source()`)  
+- Your functions have help pages
+- Your functions could be used by others
+- Users could give feedback to your function 
+  
+Cons:  
+- Could be time consuming to create and maintain a package
+- Users could give feedback to your functions (bugs)
+
+---
+# How to create a package:  
+---
+
+# Package components, what do we need? (Emy)  
+### R code :   
+Let's consider few function for raster and image modification. First, our new functions and worflow will depend on other packages that we need to load:
+```{r, echo=TRUE, warning=FALSE, message = FALSE}
+library(spatstat)
+library(lattice)
+```
+
+Next, we want to create an image that display a gradient along the area of interest. Thus set the coordinates of our gridded area (resolution) and define a function which will evaluate the values $v1$ across our space. The last step is to create the image using `as.im()`.
+---
+
+.pull-left[
+```{r, echo=T, eval=F, out.width="80%"}
+set.seed(113)
+XY = expand.grid(seq(0, 100, 1), 
+                 seq(0, 100, 1))
+X = XY[,1]
+Y = XY[,2]
+
+v1 = (X - 30)^2 + (Y + 80)^2 - 0.5*X*Y
+v1 = -1*scale(v1)
+
+raster.im = as.im(data.frame(x = X,
+                             y = Y, 
+                             z = v1))
+plot(raster.im)
+```
+]
+
+.pull-right[
+```{r, echo=F, out.width="90%"}
+set.seed(113)
+XY = expand.grid(seq(0, 100, 1), seq(0, 100, 1))
+X = XY[,1]
+Y = XY[,2]
+
+v1 = (X - 30)^2 + (Y + 80)^2 - 0.5*X*Y
+v1 = -1*scale(v1)
+
+raster.im = as.im(data.frame(x = X, y = Y, z = v1))
+plot(raster.im)
+```
+]
