@@ -476,19 +476,77 @@ plot(raster.im)
 ]
 
 .pull-right-40[
-&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-4-1.png" width="80%" /&gt;
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-4-1.png" width="90%" /&gt;
 ]
 
 ---
 # Gradientfunction
+.pull-left-60[
+
+```r
+source('Gradientsfunctions_comb.R')
+
+Grad1 = RandomGradient(n_col=20, n_row=40)
+```
+]
+
+.pull-right-40[
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-6-1.png" width="90%" /&gt;
+]
 
 ---
-# Transposefunction
+# Gradientfunction
+.pull-left-60[
 
+```r
+source('Gradientsfunctions_comb.R')
+
+Grad2 = RandomGradient(n_col=30, n_row=30)
+```
+]
+
+.pull-right-40[
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-8-1.png" width="90%" /&gt;
+]
+
+---
+# Mirrorfunction
+
+
+```r
+Grad2.hz = MirrorImage(Grad2, direction = "horizontal")
+```
+
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-10-1.png" width="90%" /&gt;
+
+---
+# Mirrorfunction
+
+```r
+Grad2.vt = MirrorImage(Grad2, direction = "vertical")
+```
+
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-12-1.png" width="90%" /&gt;
 
 ---
 # wigglefunction
+We can play with the direction of the gradient
 
+```r
+Rast_change = WiggleImage(Grad2, x = -1, y = 0.6)
+```
+
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-14-1.png" width="90%" /&gt;
+
+---
+# wigglefunction
+ We can play with the steepness of the gradient
+
+```r
+Rast_change2 = WiggleImage(Grad2, z = -5)
+```
+
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-16-1.png" width="90%" /&gt;
 
 ---
 

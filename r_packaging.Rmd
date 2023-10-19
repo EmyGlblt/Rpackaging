@@ -259,7 +259,11 @@ MirrorImage = function(Rast, direction = c("horizontal", "vertical"),
     m_raster = as.im(t(mat1))
   }
  
-  if(plot) plot(m_raster, main = "MirrorImage")
+  if(plot){
+    par(mfrow=c(1,2))
+    plot(Rast, main = "Original")
+    plot(m_raster, main = "MirrorImage")
+  }
   
   m_raster
   return(m_raster)
@@ -292,11 +296,14 @@ WiggleImage = function(Rast, x=NULL, y=NULL, z=NULL, plot = TRUE){
     Grad.w$v = Grad.w$v + z*X*Y
   }
   
-  if(plot) plot(Grad.w, main = "wiggle")
+  if(plot){
+    par(mfrow=c(1,2))
+    plot(Rast, main = "Original")
+    plot(Grad.w, main = "wiggle")
+  }
   return(Grad.w)
 }
 
-par(mfrow=c(1,2))
 Rast_change = WiggleImage(Grad2, x = -1, y = 0.6)
 
 Rast_change2 = WiggleImage(Grad2, z = -5)
@@ -310,7 +317,11 @@ AddNoise <- function(Rast, noise = 0.1, plot = TRUE){
   
   Rast$v <- Rast$v + add_noise
   
-  if(plot) plot(Rast, main = "AddNoise")
+  if(plot){
+    par(mfrow=c(1,2))
+    plot(Rast, main = "Original")
+    plot(Rast, main = "AddNoise")
+  }
   Rast
   return(Rast)
 }
