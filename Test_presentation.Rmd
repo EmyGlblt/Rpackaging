@@ -488,21 +488,28 @@ plot(raster.im)
 
 
 ---
-
 # Creation and Maintenance (Arthur)
-
----
-
-# Creation and Maintenance (Arthur)
-
+.pull-left-90[
 Main packages needed for package development:
-* devtools: Creation - building o the package
+* devtools: Creation - building of the package
 * usethis: help with documentation, testing and broadcast
 * roxygen2: help with the documentation set up
-* pkgdown:
+* pkgdown: for building a site for your package
 * testthat: testing
 
+--
+
+- One bullet
+
+- Another bullet
+
+--
+
+--
+
 ! You also need a system builder ! Make sure Rtools is installed which is done differently depending on your system (windows, MacOS, Linux).
+]
+
 
 ---
 # Step by step
