@@ -231,17 +231,17 @@ vignette: >   *Needed in R*
 
 You also have Rmardown chunks to specify:
 + the code output display
-```{r, include = FALSE}
+` ` `{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-```
+` ` `
 
 The second chunk just attaches the package the vignette belongs to.
-```{r setup}
+` ` `{r setup}
 library(yourpackage)
-```
+` ` `
 
 Then, the document is created like a normal Rmarkdown document.
 

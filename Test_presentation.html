@@ -462,6 +462,23 @@ These are created using:  `usethis::create_package()`
 * Other optional information such as data etc..
 ---
 
+What compose the R package?  
+
+Folders structure:  
+  + R/: directory for the R functions. It is good to have a file per function.  
+  + man/: for the documentation - contains Rmarkdown type of documents.   
+  + vignettes/: contains the description, namespace, news, Readme documents.  
+  + data/: usefull to include for demo or testing purposes of the functions.  
+  + src/: source and header files for compiled code.  
+  + inst/: for arbitrary additional files that you want to include in your package.  
+  + tools/: auxiliary files needed during configuration.  
+  + test/: for the tests done.   
+  + demo/: for package demos.  
+  + exec/: for executable scripts.  
+  + po/: translations for messages.  
+  
+---
+
 ### Description file:
 Simple file format called DCF, the Debian control format. It is created using `usethis::create_package("mypackage")`.
 For example, we will set up the different fields:
@@ -513,16 +530,6 @@ Depends: R (&gt;= 4.0.0)
 ### R code :   
 
 In the R/ directory, it is good to have a file per function.
-
-Other directories can be include, which contains non compulsory information, such as:
-  + data/: usefull to include for demo or testing purposes of the functions.
-  + src/: source and header files for compiled code.
-  + inst/: for arbitrary additional files that you want to include in your package.
-  + tools/: auxiliary files needed during configuration.
-  + demo/: for package demos. 
-  + exec/: for executable scripts.
-  + po/: translations for messages.
-  
 
 ---
 ### R code :   

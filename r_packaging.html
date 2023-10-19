@@ -312,19 +312,16 @@ report any issues</em><br />
 Imports: spatstat (&gt;= 3.0-6), glue (&gt;= 1.6.2) <em>Any necessary
 packages</em><br />
 Suggests: lattice (&gt;= 0.20-44) <em>Useful but not required</em></p>
-<p>which you can get with: # exact version
+<p>which you can get with: + exact version
 <code>usethis::use_package(&quot;spatstat&quot;, min_version = &quot;3.0-6&quot;)</code></p>
-</div>
-</div>
-</div>
-<div id="min-version-currently-installed-version" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> min version = currently
-installed version</h1>
-<p><code>usethis::use_package(&quot;spatstat&quot;, min_version = TRUE)</code></p>
+<ul>
+<li>min version = currently installed version
+<code>usethis::use_package(&quot;spatstat&quot;, min_version = TRUE)</code></li>
+</ul>
 <p>Depends: R (&gt;= 4.0.0)</p>
-<p><br><br><br><br></p>
-<div id="r-directory" class="section level3" number="3.0.1">
-<h3><span class="header-section-number">3.0.1</span> R/ directory</h3>
+</div>
+<div id="r-directory" class="section level3" number="2.1.2">
+<h3><span class="header-section-number">2.1.2</span> R/ directory</h3>
 <p>In the R/ directory, it is good to have a file per function.</p>
 <p>Other directories can be include, which contains non compulsory
 information, such as: + data/: usefull to include for demo or testing
@@ -333,12 +330,12 @@ code. + inst/: for arbitrary additional files that you want to include
 in your package. + tools/: auxiliary files needed during configuration.
 + demo/: for package demos. + exec/: for executable scripts. + po/:
 translations for messages.</p>
-<p><br><br><br><br> * NAMESPACE The NAMESPACE file plays a key role in
-defining your package’s namespace, it looks like a R code without
-actually being one. It is automatically created with
-<code>roxygen2</code> package, using specific tags located in a roxygen
-comment above each function’s definition in the R/*.R files and is
-composed of different functions:</p>
+<p><br><br><br><br> ### NAMESPACE</p>
+<p>The NAMESPACE file plays a key role in defining your package’s
+namespace, it looks like a R code without actually being one. It is
+automatically created with <code>roxygen2</code> package, using specific
+tags located in a roxygen comment above each function’s definition in
+the R/*.R files and is composed of different functions:</p>
 <div class="blackbox">
 <p>export(): export a function (including S3 and S4 generics).
 S3method(): export an S3 method. importFrom(): import selected object
@@ -352,21 +349,19 @@ from this package to be used by others, or it’s imported from another
 package to be used internally.</p>
 <p><br><br><br><br></p>
 </div>
-<div id="other-documentation" class="section level2" number="3.1">
-<h2><span class="header-section-number">3.1</span> Other
+</div>
+<div id="other-documentation" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Other
 documentation</h2>
 <p>A good package needs good documentation, for that purpose we already
-talked about the description file above. Another important document is
-the vignette that can be created using:
-<code>usethis::use_vignette(&quot;my-vignette&quot;)</code>. The vignette is more
-informative of the workflow and the purpose of your functions.</p>
-<div id="user-friendly-documentation" class="section level3" number="3.1.1">
-<h3><span class="header-section-number">3.1.1</span> User friendly
-documentation:</h3>
+talked about the description file above. When creating your R file code
+it is necessary to inform on the different element in your function
+which would appear above your code.</p>
 <p>It is helpful to use the <em>roxygen2</em> package to manually adapt
 the documentation files. Roxygen comment lines always start with #’. and
 all the roxygen2 comments preceding a function are collectively called a
-block. Blocks are broken up by tags, which look like <span class="citation">@tagName</span> tagValue. A block can contain text
+block.</p>
+<p>Blocks are broken up by tags, which look like <span class="citation">@tagName</span> tagValue. A block can contain text
 before the first tag which is called the introduction. By default, each
 block generates a single documentation topic, i.e. a single .Rd file in
 the man/ directory. Some common tag include: <span class="citation">@params</span>, <span class="citation">@returns</span>,
@@ -387,10 +382,25 @@ steepness.<br />
 #’ Rast2 = CreateGradient(x=-30, y=80)<br />
 #’ plot(Rast2)</p>
 </div>
+<p>Another important document is the vignette that can be created using:
+<code>usethis::use_vignette(&quot;my-vignette&quot;)</code>. The vignette is more
+informative of the workflow and the purpose of your functions.</p>
+<p>The first few lines of the vignette contain important metadata. The
+default template contains the following information: :::{.blackbox
+data-latex=““} title:”Vignette Title” <em>title that will appear on the
+vignette</em> output: rmarkdown::html_vignette <em>output format</em>
+vignette: &gt; <em>Needed in R</em> % % % :::</p>
+<p>You also have Rmardown chunks to specify: + the code output display
+<code></code>
+<code>{r, include = FALSE} knitr::opts_chunk$set(   collapse = TRUE,   comment = &quot;#&gt;&quot; )</code>
+<code></code></p>
+<p>The second chunk just attaches the package the vignette belongs to.
+<code></code> <code>{r setup} library(yourpackage)</code>
+<code></code></p>
+<p>Then, the document is created like a normal Rmarkdown document.</p>
 </div>
-</div>
-<div id="r-code" class="section level2" number="3.2">
-<h2><span class="header-section-number">3.2</span> R code :</h2>
+<div id="r-code" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> R code :</h2>
 <p>Let’s consider few function for raster and image modification. First,
 our new functions and worflow will depend on other packages that we need
 to load:</p>
@@ -556,8 +566,8 @@ multiple files if needed.</p>
 <p><br><br><br><br></p>
 </div>
 </div>
-<div id="creation-and-maintenance-arthur" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Creation and
+<div id="creation-and-maintenance-arthur" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> Creation and
 Maintenance (Arthur)</h1>
 <p>Main packages needed for package development: * devtools: Creation -
 building o the package * usethis: help with documentation, testing and
@@ -574,8 +584,8 @@ A caption
 </p>
 </div>
 <p><br><br><br><br></p>
-<div id="step-by-step" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> Step by step</h2>
+<div id="step-by-step" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Step by step</h2>
 <p>Whole R package development workflow:</p>
 <ul>
 <li><code>available::available(&quot;pkgname&quot;)</code> # check if package name
@@ -618,8 +628,8 @@ pkgdown website on github</li>
 <li><code>usethis::use_pkgdown()</code> if not using github pages</li>
 </ul>
 </div>
-<div id="bugs-and-recommendations" class="section level2" number="4.2">
-<h2><span class="header-section-number">4.2</span> Bugs and
+<div id="bugs-and-recommendations" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Bugs and
 recommendations</h2>
 <p><br><br><br><br> # Summary of resources</p>
 <p><a href="https://r-pkgs.org/description.html" class="uri">https://r-pkgs.org/description.html</a></p>
