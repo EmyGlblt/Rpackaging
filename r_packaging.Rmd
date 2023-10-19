@@ -101,7 +101,7 @@ Cons:
   
 * R/ directory for R files that contain your functions
   
-* NAMESPACE file which specifies the function that compose your package and what imports functions from othe rpacages are needed.
+* NAMESPACE file which specifies the function that compose your package and what imports functions from other pacages are needed.
   
 These are created using:  `usethis::create_package()`
   
@@ -119,7 +119,8 @@ Title: Creates a gradient image and modify it. *only one line*
 Version: 0.0.0.9000 *consider carefully the version*
 
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+    person("Arthur", "Rodrigues", , "arthur.rodrigues@helsinki.fi", role = c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))
+    person("Emy", "Guilbault", , "Emy.Guilbault@helsinki.fi", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
 
 Description: Gradients creates an customized image that display a gradient. Other 
@@ -135,6 +136,8 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 :::
 
+In the R/ directory, it is good to have a file per function.
+
 <br><br><br><br>
 
 ## Documentation
@@ -146,6 +149,7 @@ A good package needs good documentation, for that purpose we already talked abou
 It is helpful to use the *roxygen2* package to manually adapt the documentation files. 
 Roxygen comment lines always start with #'. and all the roxygen2 comments preceding a function are collectively called a block. Blocks are broken up by tags, which look like @tagName tagValue. A block can contain text before the first tag which is called the introduction. By default, each block generates a single documentation topic, i.e. a single .Rd file6 in the man/ directory.
 Some common tag include: @params, @returns, @description, @seealso, @examples, and @export
+  
 
 :::{.blackbox data-latex=""}
 #' @params x,y integer values.  
@@ -167,7 +171,7 @@ Some common tag include: @params, @returns, @description, @seealso, @examples, a
 Let's consider few function for raster and image modification. First, our new functions and worflow will depend on other packages that we need to load:
 ```{r, message=FALSE, warning=FALSE}
 library(spatstat)
-library(lattice)
+library(glue)
 ```
 
 Next, we want to create an image that display a gradient along the area of interest. Thus set the coordinates of our gridded area (resolution) and define a function which will evaluate the values $v1$ across our space. The last step is to create the image using `as.im()`.
@@ -187,69 +191,133 @@ plot(raster.im)
 ```
 
 
-These different steps can be combined in a function, where we can play with $x$ and $y$ to establish a different gradient. Let's call this function `CreateGradient`
+These different steps can be combined in a function, where we can play with $n_col$ and $n_row$ to establish a random gradient within space of different sizes. Let's call this function `RandomGradient`
 ```{r, message=FALSE, warning=FALSE}
 ### create image/raster
-CreateGradient = function(x, y){
 
-  XY = expand.grid(seq(0, 100, 1), seq(0, 100, 1))
+RandomGradient <- function(n_col, n_row, plot = TRUE){
+  
+  #create the image matrix
+  XY = expand.grid(seq(0, n_col-1, 1), seq(0, n_row-1, 1))
   X = XY[,1]
   Y = XY[,2]
   
-  v1 = (X - x)^2 + (Y + y)^2 - 0.5*X*Y
-  v1 = -1*scale(v1)
+  # randomize a gradient function
+  math_op <- c("-", "+")
+  exp_size <- c("^1", "^2", "^3")
+  
+  op_1 <- sample(math_op, 1)
+  op_2 <- sample(math_op, 1)
+  op_3 <- sample(math_op, 1)
+  op_4 <- sample(math_op, 1)
+  
+  exp_x <- sample(exp_size, 1)
+  exp_y <- sample(exp_size, 1)
+  
+  val_1 <- sample(seq(0, 100, 1), 1)
+  val_2 <- sample(seq(0, 100, 1), 1)
+  val_3 <- sample(seq(0, 1, 0.01), 1)
+  
+  # set the gradient function
+  str_expression <-  glue(
+    "(X{exp_x} {op_1} {val_1}) {op_2} (Y{exp_y} {op_3} {val_2}) {op_4} ({val_3}*X*Y)"
+  )
+  
+  # Create the raster image 
+  v1 <- eval(parse(text = str_expression))
+  v1 = scale(v1)
   
   raster.im = as.im(data.frame(x = X, y = Y, z = v1))
-  #plot(raster.im)
   
+  if(plot) plot(raster.im, main = "RandomGradient")
+  
+  raster.im
   return(raster.im)
 }
 
-Rast1 = CreateGradient(x=30, y=80)
-plot(Rast1)
+Grad1 = RandomGradient(n_col=20, n_row=40)
 ```
 
-If we change the value of $x$ and $y$, we see the gradient can have a different direction.
+If we change the value of $n_col$ and $n_row$:
 ```{r, message=FALSE, warning=FALSE}
-Rast2 = CreateGradient(x=-30, y=80)
-plot(Rast2)
+Grad2 = RandomGradient(n_col=40, n_row=40)
 ```
-However, we could also want to change the gradient based on the same initial image. For eample we can create a function able to transpose the image we see according to an horizontal axis. Let's call this function `TransposeImage`:
+
+However, we could also want to change the gradient based on the same initial image. For example, we can create a function able to transpose the image we see according to an horizontal or a vertical axis. Let's call this function `TransposeImage`:
 ```{r, message=FALSE, warning=FALSE}
-TransposeImage = function(Rast){
+MirrorImage = function(Rast, direction = c("horizontal", "vertical"),  
+                       plot = TRUE){
   
-  mat1 <- apply(Rast$v, 2, rev)
-  rast.trasnp = as.im(mat1)
-
-  return(rast.trasnp)
+  if(direction == "horizontal"){
+    mat1 <- apply(Rast$v, 2, rev)
+    m_raster = as.im(t(mat1))
+    
+  }
+  
+  if(direction == "vertical"){
+    mat1 <- apply(Rast$v, 1, rev)
+    m_raster = as.im(t(mat1))
+  }
+ 
+  if(plot) plot(m_raster, main = "MirrorImage")
+  
+  m_raster
+  return(m_raster)
 }
 
-Rast2.tr = TransposeImage(Rast2)
-plot(Rast2.tr)
+Grad2.hz = MirrorImage(Grad2, direction = "horizontal")
+
+Grad2.vt = MirrorImage(Grad2, direction = "vertical")
 ```
-Finally, we can create a function that modifies the shape of the gradient by playing with $x$ and $y$ input values in the function `WiggleImage`:
+
+Finally, we can create a function that modifies the direction of the gradient by playing with $x$ and $y$ or the strength of the gradient with $z$ in the input values in the function `WiggleImage`:
 ```{r, message=FALSE, warning=FALSE}
-WiggleImage = function(Rast, x, y){
-  Rast.w = Rast
+WiggleImage = function(Rast, x=NULL, y=NULL, z=NULL, plot = TRUE){
+  Grad.w = Rast
   
-  XY = expand.grid(seq(0, 100, 1), seq(0, 100, 1))
-  X = XY[,1]
-  Y = XY[,2]
+  if(!is.null(x)){
+    X = Grad.w$xcol
+    Grad.w$v = Grad.w$v + x*X
+  }
   
-  Rast.w$v = Rast.w$v + x*X + y*Y
+  if(!is.null(y)){
+    Y = Grad.w$yrow
+    Grad.w$v = Grad.w$v + x*X + y*Y
+  }
   
-  return(Rast.w)
+   if(!is.null(z)){
+    X = Grad.w$xcol
+    Y = Grad.w$yrow
+    
+    Grad.w$v = Grad.w$v + z*X*Y
+  }
+  
+  if(plot) plot(Grad.w, main = "wiggle")
+  return(Grad.w)
 }
 
 par(mfrow=c(1,2))
-Rast_change = WiggleImage(Rast = Rast1, x = -0.1, y = 0.6)
-plot(Rast_change)
+Rast_change = WiggleImage(Grad2, x = -1, y = 0.6)
 
-Rast_change2 = WiggleImage(Rast = Rast1, x = 1, y = -10)
-plot(Rast_change2)
+Rast_change2 = WiggleImage(Grad2, z = -5)
 ```
 
-Now, we have 3 functions to create our package! Let's call it `Gradients`.
+or we can just add general noise overall:
+```{r, message=FALSE, warning=FALSE}
+AddNoise <- function(Rast, noise = 0.1, plot = TRUE){
+  l_vec <- length(Rast$v)
+  add_noise <- rnorm(l_vec, 0, noise)
+  
+  Rast$v <- Rast$v + add_noise
+  
+  if(plot) plot(Rast, main = "AddNoise")
+  Rast
+  return(Rast)
+}
+
+Rast_noise = AddNoise(Grad2, noise = 0.05)
+```
+Now, we have 4 functions to create our package! Let's call it `Gradients`.
 The function created can be organize into one or multiple files if needed.
 
 
