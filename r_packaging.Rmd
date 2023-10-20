@@ -183,7 +183,7 @@ importFrom(): import selected object from another namespace (including S4 generi
 import(): import all objects from another package’s namespace.
 useDynLib(): registers routines from a DLL (this is specific to packages with compiled code).
 :::
-Each directive describes an R object, and says whether it’s exported from this package to be used by others, or it’s imported from another package to be used internally.
+Each directive describes an R object, and says whether it’s exported from this package to be used by others, or it’s imported from another package to be used internally. It automatically changes when someone is changing the function documents.
 
 
 
@@ -199,7 +199,7 @@ Roxygen comment lines always start with #'. and all the roxygen2 comments preced
 
 Blocks are broken up by tags, which look like @tagName tagValue. A block can contain text before the first tag which is called the introduction. By default, each block generates a single documentation topic, i.e. a single .Rd file in the man/ directory.
 Some common tag include: @params, @returns, @description, @seealso, @examples, and @export
-  
+To create this documentation you use *Alt+Ctrl+SHIFT+R* or follow: code>Insert Roxygen skeleton
 
 :::{.blackbox data-latex=""}
 #' @params x,y integer values.  
@@ -368,17 +368,23 @@ WiggleImage = function(Rast, x=NULL, y=NULL, z=NULL, plot = TRUE){
     Grad.w$v = Grad.w$v + x*X + y*Y
   }
   
-   if(!is.null(z)){
-    X = Grad.w$xcol
-    Y = Grad.w$yrow
+  Grad.w2 = Rast
+  if(!is.null(z)){
+    X = Grad.w2$xcol
+    Y = Grad.w2$yrow
     
-    Grad.w$v = Grad.w$v + z*X*Y
+    Grad.w2$v = Grad.w2$v + z*X*Y
   }
   
   if(plot){
     par(mfrow=c(1,2))
     plot(Rast, main = "Original")
-    plot(Grad.w, main = "wiggle")
+    
+    if(!is.null(z)){
+      plot(Grad.w2, main = "wiggle")
+    }else{
+      plot(Grad.w, main = "wiggle")
+    }
   }
   return(Grad.w)
 }
@@ -474,5 +480,7 @@ Write some test
 https://r-pkgs.org/description.html
 
 https://rpubs.com/emitanaka/rladies-lagos-paris-2023
+
+https://debruine.github.io/project/coding-club/
 
 https://github.com/EmyGlblt/Rpackaging
