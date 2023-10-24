@@ -405,6 +405,53 @@ What compose the R package?
   + Licensing
   + Version number
   + Bug report location, and so on
+
+---
+
+What compose the R package?
+  
+* DESCRIPTION file: This is the metadata for the package. It contains:
+  + Package name
+  + Title and description
+  + Authors
+  + Dependencies (depends, imports, suggests)
+  + Licensing
+  + Version number
+  + Bug report location, and so on
+  
+* R/ directory for R files that contain your functions
+  
+---
+
+What compose the R package?
+  
+* DESCRIPTION file: This is the metadata for the package. It contains:
+  + Package name
+  + Title and description
+  + Authors
+  + Dependencies (depends, imports, suggests)
+  + Licensing
+  + Version number
+  + Bug report location, and so on
+  
+* R/ directory for R files that contain your functions
+  
+* NAMESPACE file which specifies the function that compose your package and what imports functions from othe rpacages are needed.
+  
+These are created using:  `usethis::create_package()`
+
+---
+
+What compose the R package?
+  
+* DESCRIPTION file: This is the metadata for the package. It contains:
+  + Package name
+  + Title and description
+  + Authors
+  + Dependencies (depends, imports, suggests)
+  + Licensing
+  + Version number
+  + Bug report location, and so on
   
 * R/ directory for R files that contain your functions
   
@@ -415,7 +462,8 @@ These are created using:  `usethis::create_package()`
 * Other optional information such as data etc..
 ---
 
-The Description file is a simple file format called DCF, the Debian control format. It is created using `usethis::create_package("mypackage")`.
+### Description file:
+Simple file format called DCF, the Debian control format. It is created using `usethis::create_package("mypackage")`.
 For example, we will set up the different fields:
 
 .blackbox[
@@ -426,11 +474,12 @@ Title: Creates a gradient image and modify it. *only one line*
 Version: 0.0.0.9000 *consider carefully the version*
 
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
+    person("Arthur", "Rodrigues", , "arthur.rodrigues@helsinki.fi", role = c("aut", "cre"), comment = c(ORCID = "YOUR-ORCID-ID"))
+    person("Emy", "Guilbault", , "Emy.Guilbault@helsinki.fi", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
 
-Description: Gradients creates an customized image that display a gradient. Other 
-functionalities include modifying the radient direction or stepness as well as transposing directly the gradient image. *What the package does (one paragraph)*
+Description: Gradients creates a customized image that display a gradient of values. Other 
+functionalities include modifying the gradient direction or steepness as well as mirroring directly the gradient image. *What the package does (one paragraph)*
 
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
@@ -444,13 +493,44 @@ RoxygenNote: 7.2.3]
 
 ---
 
+### Description file:
+URL: https://github.com/EmyGlblt/Rpackaging *link to where the package is advertised*
+BugReports: https://github.com/r-lib/devtools/issues *Where to report any issues*
+Imports: spatstat (&gt;= 3.0-6), glue (&gt;= 1.6.2) *Any necessary packages*  
+Suggests: lattice (&gt;= 0.20-44) *Useful but not required*  
 
+which you can get with:
+# exact version
+`usethis::use_package("spatstat", min_version = "3.0-6")`
+
+# min version = currently installed version
+`usethis::use_package("spatstat", min_version = TRUE)`
+
+Depends: R (&gt;= 4.0.0)
+
+
+---
+### R code :   
+
+In the R/ directory, it is good to have a file per function.
+
+Other directories can be include, which contains non compulsory information, such as:
+  + data/: usefull to include for demo or testing purposes of the functions.
+  + src/: source and header files for compiled code.
+  + inst/: for arbitrary additional files that you want to include in your package.
+  + tools/: auxiliary files needed during configuration.
+  + demo/: for package demos. 
+  + exec/: for executable scripts.
+  + po/: translations for messages.
+  
+
+---
 ### R code :   
 Let's consider few function for raster and image modification. First, our new functions and worflow will depend on other packages that we need to load:
 
 ```r
 library(spatstat)
-library(lattice)
+library(glue)
 ```
 
 Next, we want to create an image that display a gradient along the area of interest. Thus set the coordinates of our gridded area (resolution) and define a function which will evaluate the values `\(v1\)` across our space. The last step is to create the image using `as.im()`.
@@ -476,46 +556,265 @@ plot(raster.im)
 ]
 
 .pull-right-40[
-&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-4-1.png" width="80%" /&gt;
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-4-1.png" width="90%" /&gt;
 ]
 
 ---
 # Gradientfunction
+.pull-left-60[
+
+```r
+source('Gradientsfunctions_comb.R')
+
+Grad1 = RandomGradient(n_col=20, n_row=40)
+```
+]
+
+.pull-right-40[
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-6-1.png" width="90%" /&gt;
+]
 
 ---
-# Transposefunction
+# Gradientfunction
+.pull-left-60[
 
+```r
+source('Gradientsfunctions_comb.R')
+
+Grad2 = RandomGradient(n_col=30, n_row=30)
+```
+]
+
+.pull-right-40[
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-8-1.png" width="90%" /&gt;
+]
+
+---
+# Mirrorfunction
+
+
+```r
+Grad2.hz = MirrorImage(Grad2, direction = "horizontal")
+```
+
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-10-1.png" width="90%" /&gt;
+
+---
+# Mirrorfunction
+
+```r
+Grad2.vt = MirrorImage(Grad2, direction = "vertical")
+```
+
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-12-1.png" width="90%" /&gt;
 
 ---
 # wigglefunction
+We can play with the direction of the gradient
 
+```r
+Rast_change = WiggleImage(Grad2, x = -1, y = 0.6)
+```
+
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-14-1.png" width="90%" /&gt;
 
 ---
+# wigglefunction
+We can play with the steepness of the gradient
+
+```r
+Rast_change2 = WiggleImage(Grad2, z = -5)
+```
+
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-16-1.png" width="90%" /&gt;
+
+---
+* NAMESPACE   
+The NAMESPACE file plays a key role in defining your package’s namespace, it looks like a R code without actually being one. It is automatically created with `roxygen2` package, using specific tags located in a roxygen comment above each function’s definition in the R/*.R files and is composed of different functions:
+
+
+.blackbox[
+.font60[export(): export a function (including S3 and S4 generics).  
+S3method(): export an S3 method.  
+importFrom(): import selected object from another namespace (including S4 generics).  
+import(): import all objects from another package’s namespace.  
+useDynLib(): registers routines from a DLL (this is specific to packages with compiled code).]
+]
+
+
+     
+Each directive describes an R object, and says whether it’s exported from this package to be used by others, or it’s imported from another package to be used internally.
+
+---
+# Other documentation: vignettes
+
+---
+# Other documentation: Code
+When creating your R file code it is necessary to inform on the different element in your function which would appear above your code. 
+   
+---
+# Other documentation: Code
+
+When creating your R file code it is necessary to inform on the different element in your function which would appear above your code. 
+   
+It is helpful to use the `roxygen2` package to manually adapt the documentation files. 
+Roxygen comment lines always start with `#'`. and all the roxygen2 comments preceding a function are collectively called a block. Blocks are broken up by tags, which look like @tagName tagValue. 
+
+---
+# Other documentation: Code
+
+When creating your R file code it is necessary to inform on the different element in your function which would appear above your code. 
+   
+It is helpful to use the `roxygen2` package to manually adapt the documentation files. 
+Roxygen comment lines always start with `#'`. and all the roxygen2 comments preceding a function are collectively called a block. Blocks are broken up by tags, which look like @tagName tagValue. 
+   
+A block can contain text before the first tag which is called the introduction. By default, each block generates a single documentation topic, i.e. a single .Rd file in the man/ directory.
+Some common tag include: `@params`, `@returns`, `@description`, `@seealso`, `@examples`, and `@export`
+  
+---
+# Other documentation: Code  
+   
+Our documentation for `RandomGradient` function can look like this:  
+
+.blackbox[
+.font60[
+`#' @params n_col, n_row integer values.`  
+`#'`  
+`#' @returns An object of type image.`  
+`#'`  
+`#' @description`  
+`#'`  
+`#' @seealso`  
+`#'   [WiggleImage()] to modify the gradients direction and steepness.`  
+`#'   [TransposeImage] to transpose the image.`  
+`#'`  
+`#' @examples`  
+`#'   Rast2 = CreateGradient(x=-30, y=80)`  
+`#'   plot(Rast2)`]
+]
+
+---
+# Other documentation: vignettes
+
+The vignette that can be created using: `usethis::use_vignette("my-vignette")`. The vignette is more informative of the workflow and the purpose of your functions.
+
+---
+# Other documentation: vignettes
+
+The first few lines of the vignette contain important metadata. The default template contains the following information:
+.blackbox[
+.font60[
+title: "Vignette Title" *title that will appear on the vignette*  
+output: rmarkdown::html_vignette *output format*  
+vignette: &gt;   *Needed in R* 
+  %\VignetteIndexEntry{Vignette Title}  
+  %\VignetteEngine{knitr::rmarkdown}  
+  %\VignetteEncoding{UTF-8}]
+]
+   
+---
+# Other documentation: vignettes
+
+You also have Rmardown chunks to specify:
++ the code output display
+.blackbox[
+.font60[` ` `{r, include = FALSE}  
+knitr::opts_chunk$set(  
+  collapse = TRUE,  
+  comment = "#&gt;"  
+)  
+` ` `] 
+]
+
+The second chunk just attaches the package the vignette belongs to.
+.blackbox[
+.font60[` ` `{r setup}  
+library(yourpackage)  
+` ` `]
+]
+
+Then, the document is created like a normal Rmarkdown document.
+---
+
+
 # Creation and Maintenance (Arthur)
-.pull-left-90[
+
+
 Main packages needed for package development:
-* devtools: Creation - building of the package
-* usethis: help with documentation, testing and broadcast
-* roxygen2: help with the documentation set up
-* pkgdown: for building a site for your package
-* testthat: testing
+* `devtools`: Creation - building of the package
+* `usethis`: help with documentation, testing and broadcast
+* `roxygen2`: help with the documentation set up
+* `pkgdown`: for building a site for your package
+* `testthat`: testing
 
---
-
-- One bullet
-
-- Another bullet
-
---
-
---
 
 ! You also need a system builder ! Make sure Rtools is installed which is done differently depending on your system (windows, MacOS, Linux).
-]
+
 
 
 ---
 # Step by step
+
+Check if the package name is available
+
+
+```r
+available::available("spatgrad", browse = F)
+```
+
+```
+## ── spatgrad ────────────────────────────────────────────────────────────────────
+## Name valid: ✔
+## Available on CRAN: ✔ 
+## Available on Bioconductor: ✔
+## Available on GitHub:  ✔ 
+## Abbreviations: http://www.abbreviations.com/spatgrad
+## Wikipedia: https://en.wikipedia.org/wiki/spatgrad
+## Wiktionary: https://en.wiktionary.org/wiki/spatgrad
+## Sentiment:???
+```
+
+Then create the package: 
+
+```r
+usethis::create_package("spatgrad")
+```
+
+---
+# Step by step
+
+
+```r
+usethis::use_r("RandomGradient")
+```
+
+
+Add roxygen skeleton (Alt + Ctrl + Shift + R)
+
+
+
+```r
+#' Create a random gradient
+#'
+#'
+#' @param n_col integer. Number of columns in the image.
+#' @param n_row integer. Number of rows in the image.
+#' @param plot logical. Whether the function plot the image. Default is TRUE.
+#'
+#' @return A pixel image (object of class "im")
+#' @export
+#'
+#' @examples
+#' RandomGradient(20, 20)
+#'
+#' @importFrom spatstat.geom as.im
+#' @import glue
+RandomGradient &lt;- function(n_col, n_row, plot = TRUE){}
+```
+
+
+
+---
 Whole R package development workflow:
 
 * `available::available("pkgname")` # check if package name is available (if planning to publish publicly)

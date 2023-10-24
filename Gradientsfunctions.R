@@ -1,5 +1,5 @@
 library(spatstat)
-library(lattice)
+#library(lattice)
 
 
 set.seed(113)
@@ -8,6 +8,8 @@ X = XY[,1]
 Y = XY[,2]
 
 v1 = (X - 30)^2 + (Y + 80)^2 - 0.5*X*Y
+
+v1 <- X^2 + (Y*2)^2 - 20*X*Y
 v1 = -1*scale(v1)
 
 raster.im = as.im(data.frame(x = X, y = Y, z = v1))
