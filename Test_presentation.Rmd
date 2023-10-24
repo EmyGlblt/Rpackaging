@@ -450,6 +450,23 @@ These are created using:  `usethis::create_package()`
 * Other optional information such as data etc..
 ---
 
+What compose the R package?  
+
+Folders structure:  
+  + R/: directory for the R functions. It is good to have a file per function.  
+  + man/: for the documentation - contains Rmarkdown type of documents.   
+  + vignettes/: contains the description, namespace, news, Readme documents.  
+  + data/: usefull to include for demo or testing purposes of the functions.  
+  + src/: source and header files for compiled code.  
+  + inst/: for arbitrary additional files that you want to include in your package.  
+  + tools/: auxiliary files needed during configuration.  
+  + test/: for the tests done.   
+  + demo/: for package demos.  
+  + exec/: for executable scripts.  
+  + po/: translations for messages.  
+  
+---
+
 ### Description file:
 Simple file format called DCF, the Debian control format. It is created using `usethis::create_package("mypackage")`.
 For example, we will set up the different fields:
@@ -502,16 +519,6 @@ Depends: R (>= 4.0.0)
 
 In the R/ directory, it is good to have a file per function.
 
-Other directories can be include, which contains non compulsory information, such as:
-  + data/: usefull to include for demo or testing purposes of the functions.
-  + src/: source and header files for compiled code.
-  + inst/: for arbitrary additional files that you want to include in your package.
-  + tools/: auxiliary files needed during configuration.
-  + demo/: for package demos. 
-  + exec/: for executable scripts.
-  + po/: translations for messages.
-  
-
 ---
 ### R code :   
 Let's consider few function for raster and image modification. First, our new functions and worflow will depend on other packages that we need to load:
@@ -561,7 +568,7 @@ plot(raster.im)
 .pull-left-60[
 ```{r, echo=T, eval=F, warning=FALSE}
 source('Gradientsfunctions_comb.R')
-
+set.seed(12)
 Grad1 = RandomGradient(n_col=20, n_row=40)
 ```
 ]
@@ -635,10 +642,19 @@ Rast_change2 = WiggleImage(Grad2, z = -5)
 Rast_change2 = WiggleImage(Grad2, z = -5)
 ```
 
----
-* NAMESPACE   
-The NAMESPACE file plays a key role in defining your package’s namespace, it looks like a R code without actually being one. It is automatically created with `roxygen2` package, using specific tags located in a roxygen comment above each function’s definition in the R/*.R files and is composed of different functions:
 
+---
+# AddNoise function
+or we can just add general noise overall:
+
+```{r, echo=T, eval=F, warning=FALSE}
+Rast_noise = AddNoise(Grad2, noise = 0.05)
+```
+
+
+---
+### NAMESPACE   
+The NAMESPACE file plays a key role in defining your package’s namespace, it looks like a R code without actually being one. It is automatically created with `roxygen2` package, using specific tags located in a roxygen comment above each function’s definition in the `R/*.R` files and is composed of different functions:
 
 .blackbox[
 .font60[export(): export a function (including S3 and S4 generics).  
@@ -648,12 +664,11 @@ import(): import all objects from another package’s namespace.
 useDynLib(): registers routines from a DLL (this is specific to packages with compiled code).]
 ]
 
-
      
-Each directive describes an R object, and says whether it’s exported from this package to be used by others, or it’s imported from another package to be used internally.
+Each directive describes an R object, and says whether it’s exported from this package to be used by others, or it’s imported from another package to be used internally. It automatically changes when someone is changing the function documents.
 
 ---
-# Other documentation: vignettes
+# Other documentation: 
 
 ---
 # Other documentation: Code
@@ -677,7 +692,36 @@ Roxygen comment lines always start with `#'`. and all the roxygen2 comments prec
    
 A block can contain text before the first tag which is called the introduction. By default, each block generates a single documentation topic, i.e. a single .Rd file in the man/ directory.
 Some common tag include: `@params`, `@returns`, `@description`, `@seealso`, `@examples`, and `@export`
-  
+
+
+---
+# Other documentation: Code
+
+When creating your R file code it is necessary to inform on the different element in your function which would appear above your code. 
+   
+It is helpful to use the `roxygen2` package to manually adapt the documentation files. 
+Roxygen comment lines always start with `#'`. and all the roxygen2 comments preceding a function are collectively called a block. Blocks are broken up by tags, which look like @tagName tagValue. 
+   
+A block can contain text before the first tag which is called the introduction. By default, each block generates a single documentation topic, i.e. a single .Rd file in the man/ directory.
+Some common tag include: `@params`, `@returns`, `@description`, `@seealso`, `@examples`, and `@export`
+
+To create this documentation you use *Alt+Ctrl+SHIFT+R* or follow:
+
+---
+# Other documentation: Code  
+
+![](function_snip.jpg)
+
+---
+# Other documentation: Code  
+
+![](function_Roxygen.png)
+
+---
+# Other documentation: Code  
+
+![](function_snip2.jpg)
+
 ---
 # Other documentation: Code  
    
@@ -685,10 +729,12 @@ Our documentation for `RandomGradient` function can look like this:
 
 .blackbox[
 .font60[
-`#' @params n_col, n_row integer values.`  
+`#' @params n_col integer values.`  
+`#' @params n_row integer values.`  
+`#' @params plot. Plot the image if TRUE.`  
 `#'`  
 `#' @returns An object of type image.`  
-`#'`  
+`#' @export`  
 `#' @description`  
 `#'`  
 `#' @seealso`  
@@ -699,6 +745,8 @@ Our documentation for `RandomGradient` function can look like this:
 `#'   Rast2 = CreateGradient(x=-30, y=80)`  
 `#'   plot(Rast2)`]
 ]
+
+`@export`informs Roxygen to to put the function name in the package NAMESPACE file which means it can be accessed by users after they run library(<packagename>).
 
 ---
 # Other documentation: vignettes
@@ -871,6 +919,8 @@ https://r-pkgs.org/description.html
 
 https://rpubs.com/emitanaka/rladies-lagos-paris-2023
 
+https://debruine.github.io/project/coding-club/
+
 https://github.com/EmyGlblt/Rpackaging
 
 
@@ -879,5 +929,10 @@ https://github.com/EmyGlblt/Rpackaging
 class: center, middle
 
 .Large[Thanks!]
+
+```{r pressure, echo=FALSE, out.width = '25%'}  
+knitr::include_graphics("hex-Gradients.png") 
+```
+
 
 Slides created via the R package [**xaringan**](https://github.com/yihui/xaringan).

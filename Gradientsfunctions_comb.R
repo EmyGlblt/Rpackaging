@@ -59,23 +59,32 @@ WiggleImage = function(Rast, x=NULL, y=NULL, z=NULL, plot = TRUE){
     Grad.w$v = Grad.w$v + x*X + y*Y
   }
   
+  Grad.w2 = Rast
   if(!is.null(z)){
-    X = Grad.w$xcol
-    Y = Grad.w$yrow
+    X = Grad.w2$xcol
+    Y = Grad.w2$yrow
     
-    Grad.w$v = Grad.w$v + z*X*Y
+    Grad.w2$v = Grad.w2$v + z*X*Y
   }
   
   if(plot){
     par(mfrow=c(1,2))
     plot(Rast, main = "Original")
-    plot(Grad.w, main = "wiggle")
+    
+    if(!is.null(z)){
+      plot(Grad.w2, main = "wiggle")
+    }else{
+      plot(Grad.w, main = "wiggle")
+    }
+    
   }
   return(Grad.w)
 }
 
 # general noise
 AddNoise <- function(Rast, noise = 0.1, plot = TRUE){
+  
+  Rast.i = Rast
   l_vec <- length(Rast$v)
   add_noise <- rnorm(l_vec, 0, noise)
   
@@ -83,7 +92,7 @@ AddNoise <- function(Rast, noise = 0.1, plot = TRUE){
   
   if(plot){
     par(mfrow=c(1,2))
-    plot(Rast, main = "Original")
+    plot(Rast.i, main = "Original")
     plot(Rast, main = "AddNoise")
   }
   Rast
