@@ -335,49 +335,115 @@ knitr::opts_chunk$set(echo = FALSE)
 ```
 
 
-#  Presentation: Motivation and use (ARTHUR)
-$${\color{red}Why? \space what \space do \space you \space need? }$$
-      &rarr; If you need to tailor some existing functions, if you are going to use them many times. If you want to save time and have a way to standardize your coding with existing one.
+
+# Presentation: Motivation and use (ARTHUR)
+
+**Why? what do you need?**
+
+&rarr; If you need to tailor some existing functions, if you are going to use them many times. If you want to save time and have a way to standardize your coding with existing one.
+
+--
   
-$${\color{orange}Who \space is \space it \space for?}$$
-      &rarr; Are the changes or the created function of any use for other coders or anyone working in similar field?
-  
-$${\color{gold}Where?}$$ 
-      &rarr; do you need a place to share code and make it available. github is an option. CRAN make it more accessible.
-  
-$${\color{green}How?}$$ 
-      &rarr; We are going to dig into the steps of creating a package!
+**Who is it for?**
+
+&rarr; Are the changes or the created function of any use for other coders or anyone working in similar field?
+
+--
+
+**Where**
+
+&rarr; do you need a place to share code and make it available. github is an option. CRAN make it more accessible.
+
+--
+
+**How**
+
+&rarr; We are going to dig into the steps of creating a package!
 
 ---
 # Presentation: Motivation and use (ARTHUR)
-Here we go beyond the agreed knowledge that everyone knows broadly what is a package and how to install new packages: using `install.packages("x")` and then `library(X)`.
-  
-  
----
-# Presentation: Motivation and use (ARTHUR)
 
-One of the main principles in good coding practice is 'do not repeat yourself'. There are some options to achieve these goal. One of them is to create a loop, when your task is only to repeat a procedure with different input. Other option is to create a custom function, which allow you to modify predefined places of your code using arguments. 
+One of the main principles in good coding practice is 'do not repeat yourself'.
+
+--
+
+* Loops (for, apply) or custom functions
+
+--
+
+We can use `source()` to load and use a custom function:
+
+```{r, echo=TRUE, eval=FALSE}
+my_function <- function(x) {
+  sum(x)/length(x)
+}
+
+# store it in a file and load in the R environment
+
+source("my_function.R")
+```
+
   
-When we are creating a analysis or cleaning data it could be useful to write a function and let it in a separated file. Then, you only need to add a `source()` in your script to load your custom function in the R environment and you are able use it across your script. Using this approach will make your code more readable and tidy, because instead of several lines of code to do a step of your analysis, you now have only few lines of code using your custom function. Moreover, you can use it several times in your script without need to copy and paste your code and change few characters. 
-  
-Therefore, for a project you are working, you can create as much functions you need, and load it your scripts using the `source()` function. However, if you have created a set of functions that could be useful in other projects or for other people, it could be nice to create an R package. Which could also let your coding more susceptible to errors. 
-  
+If you have created a set of functions that could be useful in other projects or for other people, it could be nice to **create an R package**.
+
 ---
-# Pros and cons to create a package
-Since you have some custom functions, you might wonder if it is a good idea to create a package. 
-  
-Pros:   
-- Easy access to functions that you've created (it is easier to add a `library()` call in your script than a `source()`)  
-- Your functions have help pages
-- Your functions could be used by others
+# Presentation: Motivation and use 
+
+### R package
+
+
+.pull-left-60[
+
+R package is a structured and easy way to share code.  
+
+Packages can have code, data, documentation, and tests.  
+
+*Here we assume that everyone is familiar with using packages in R.*
+]
+
+```{r, echo=TRUE, eval=FALSE}
+#instaling
+install.packages("x").
+
+#loading
+library("x") 
+#or
+library(x).
+
+#Getting help
+?x 
+#or
+help(package = "x").
+```
+
+
+---
+# Creating a package
+
+### Pros and Cons
+
+Since you have some custom functions, you might wonder if it is a good idea to create a package.
+
+--
+
+.pull-left-50[
+**Pros**
+- Easy access to functions that you've created (*`library()` is easier to use than `source()`*)  
+- Help pages and vignettes
+- Your functions can be used by others
 - Users could give feedback to your function 
-  
-Cons:  
-- Could be time consuming to create and maintain a package
+- Gain software development skills
+]
+
+--
+
+.pull-right-50[
+**Cons**
+- Could be *time consuming* to create and maintain a package
 - Users could give feedback to your functions (bugs)
+]
 
-
-
+--
 
 ---
 # Package structure:  (Emy)
@@ -852,8 +918,8 @@ Add roxygen skeleton (Alt + Ctrl + Shift + R)
 #' @examples
 #' RandomGradient(20, 20)
 #'
-#' @importFrom spatstat.geom as.im
-#' @import glue
+#' @importFrom spatstat.geom as.im #<<
+#' @import glue #<<
 RandomGradient <- function(n_col, n_row, plot = TRUE){}
 
 
@@ -863,7 +929,7 @@ RandomGradient <- function(n_col, n_row, plot = TRUE){}
 ---
 # Step by step
 
-```{r, echo=TRUE, eval=FALSE}}
+```{r, echo=TRUE, eval=FALSE}
 #' @importFrom spatstat.geom as.im
 #' @import glue
 RandomGradient <- function(n_col, n_row, plot = TRUE){}
