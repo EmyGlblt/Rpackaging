@@ -29,9 +29,9 @@ class: center, middle, inverse, title-slide
 &lt;style type="text/css"&gt;
 .blackbox {
   padding: 1em;
-  background: lightgray;
-  color: grey;
-  border: 2px solid darkorange;
+  background: #e7e8e2;
+  color: #332;
+  border: 1px solid #f3b160;
   border-radius: 10px;
 }
 .center {
@@ -204,6 +204,19 @@ hr, .mline h1::after {
   padding: 4px;
 }
 
+.remark-code-line {
+  background: #e7e8e2;
+}
+
+code.r.hljs.remark-code{
+  background: #e7e8e2;
+}
+
+code.r .hljs-comment{
+  color: #2222bd;
+  font-style: normal;
+}
+
 .code10 .remark-code {
   font-size: 10%;
 }
@@ -348,11 +361,11 @@ hr, .mline h1::after {
 
 
 
-# Presentation: Motivation and use (ARTHUR)
+# Presentation: Motivation and use
 
 **Why? what do you need?**
 
-&amp;rarr; If you need to tailor some existing functions, if you are going to use them many times. If you want to save time and have a way to standardize your coding with existing one.
+&amp;rarr; If you need to tailor some existing functions, are going to use them many times or want to save time and have a way to standardize your coding with existing one.
 
 --
   
@@ -364,7 +377,7 @@ hr, .mline h1::after {
 
 **Where**
 
-&amp;rarr; do you need a place to share code and make it available. github is an option. CRAN make it more accessible.
+&amp;rarr; Do you need a place to share code and make it available. Github is an option, but CRAN make it more accessible.
 
 --
 
@@ -373,13 +386,13 @@ hr, .mline h1::after {
 &amp;rarr; We are going to dig into the steps of creating a package!
 
 ---
-# Presentation: Motivation and use (ARTHUR)
+# Presentation: Motivation and use
 
 One of the main principles in good coding practice is 'do not repeat yourself'.
 
 --
 
-* Loops (for, apply) or custom functions
+* Loops (`for`, `apply()`) or **custom functions**
 
 --
 
@@ -387,22 +400,27 @@ We can use `source()` to load and use a custom function:
 
 
 ```r
+# create a new function and save in a file
+
 my_function &lt;- function(x) {
   sum(x)/length(x)
 }
+```
+--
 
-# store it in a file and load in the R environment
+```r
+# load in the R environment
 
 source("my_function.R")
 ```
 
-  
-If you have created a set of functions that could be useful in other projects or for other people, it could be nice to **create an R package**.
-
 ---
 # Presentation: Motivation and use 
 
-### R package
+If you have created a set of functions that could be useful in other projects or for other people, it could be nice to **create an R package**.
+--
+
+## R package
 
 
 .pull-left-60[
@@ -411,25 +429,28 @@ R package is a structured and easy way to share code.
 
 Packages can have code, data, documentation, and tests.  
 
+
+
 *Here we assume that everyone is familiar with using packages in R.*
 ]
-
+--
+.pull-right-40[
 
 ```r
-#instaling
+# installing ----
 install.packages("x").
 
-#loading
+# loading ----
 library("x") 
-#or
-library(x).
+# or
+library(x)
 
-#Getting help
+# Getting help ----
 ?x 
-#or
-help(package = "x").
+# or
+help(package = "x")
 ```
-
+]
 
 ---
 # Creating a package
@@ -631,7 +652,7 @@ plot(raster.im)
 ]
 
 .pull-right-40[
-&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-6-1.png" width="90%" /&gt;
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-7-1.png" width="90%" /&gt;
 ]
 
 ---
@@ -646,7 +667,7 @@ Grad1 = RandomGradient(n_col=20, n_row=40)
 ]
 
 .pull-right-40[
-&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-8-1.png" width="90%" /&gt;
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-9-1.png" width="90%" /&gt;
 ]
 
 ---
@@ -661,7 +682,7 @@ Grad2 = RandomGradient(n_col=30, n_row=30)
 ]
 
 .pull-right-40[
-&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-10-1.png" width="90%" /&gt;
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-11-1.png" width="90%" /&gt;
 ]
 
 ---
@@ -672,7 +693,7 @@ Grad2 = RandomGradient(n_col=30, n_row=30)
 Grad2.hz = MirrorImage(Grad2, direction = "horizontal")
 ```
 
-&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-12-1.png" width="90%" /&gt;
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-13-1.png" width="90%" /&gt;
 
 ---
 # Mirrorfunction
@@ -681,7 +702,7 @@ Grad2.hz = MirrorImage(Grad2, direction = "horizontal")
 Grad2.vt = MirrorImage(Grad2, direction = "vertical")
 ```
 
-&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-14-1.png" width="90%" /&gt;
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-15-1.png" width="90%" /&gt;
 
 ---
 # wigglefunction
@@ -691,7 +712,7 @@ We can play with the direction of the gradient
 Rast_change = WiggleImage(Grad2, x = -1, y = 0.6)
 ```
 
-&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-16-1.png" width="90%" /&gt;
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-17-1.png" width="90%" /&gt;
 
 ---
 # wigglefunction
@@ -701,7 +722,7 @@ We can play with the steepness of the gradient
 Rast_change2 = WiggleImage(Grad2, z = -5)
 ```
 
-&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-18-1.png" width="90%" /&gt;
+&lt;img src="Test_presentation_files/figure-html/unnamed-chunk-19-1.png" width="90%" /&gt;
 
 
 ---
@@ -874,47 +895,30 @@ Main packages needed for package development:
 
 Check if the package name is available
 
-
 ```r
 available::available("spatgrad", browse = F)
 ```
 
-```
-## 'getOption("repos")' replaces Bioconductor standard repositories, see 'help("repositories", package =
-## "BiocManager")' for details.
-## Replacement repositories:
-##     CRAN: https://cran.rstudio.com/
-```
-
-```
-## ── spatgrad ─────────────────────────────────────────────────────────────────────────────────────────────────────
-## Name valid: ✔
-## Available on CRAN: ✔ 
-## Available on Bioconductor: ✔
-## Available on GitHub:  ✔ 
-## Abbreviations: http://www.abbreviations.com/spatgrad
-## Wikipedia: https://en.wikipedia.org/wiki/spatgrad
-## Wiktionary: https://en.wiktionary.org/wiki/spatgrad
-## Sentiment:???
-```
+---
+# Step by step
 
 Then create the package: 
 
 ```r
 usethis::create_package("spatgrad")
 ```
+--
 
----
-# Step by step
-
+Start adding your functions
 
 ```r
 usethis::use_r("RandomGradient")
 ```
 
+---
+# Step by step
 
 Add roxygen skeleton (Alt + Ctrl + Shift + R)
-
 
 
 ```r
@@ -940,12 +944,96 @@ RandomGradient &lt;- function(n_col, n_row, plot = TRUE){}
 ---
 # Step by step
 
+Inside a package, we don't use the `library()` or `require()` to use functions from other packages.
+
+Rather, we use the roxygen tags `@import` and/or `@importFrom`.
+
+In addition, when calling the function, we need to let explicit which package provide it. For this, we use the pattern `package::function()`.
+
+--
+
 
 ```r
 #' @importFrom spatstat.geom as.im
 #' @import glue
-RandomGradient &lt;- function(n_col, n_row, plot = TRUE){}
+#' 
+RandomGradient &lt;- function(n_col, n_row, plot = TRUE){
+  
+  # set the gradient function
+  str_expression &lt;-  glue::glue("[...]")
+  )
+
+  raster.im &lt;- spatstat.geom::as.im(data.frame(x = X, y = Y, z = v1))
+}
 ```
+
+---
+# Step by step
+
+### Dependencies
+
+**Don't forget to add the packages you use inside your functions to the dependencies section of DESCRIPTION file**
+
+You can do that by using the function `usethis::use_package("pkg")` or by adding manually in the DESCRIPTION file
+
+
+---
+# Step by step
+
+### Function development workflow
+
+* write function
+
+* load package to the session environment using `devtools::load_all()`
+
+* test your function, using a script
+
+* make changes in the function, save it
+
+* load package to the session environment using `devtools::load_all()`
+
+repeat it several times, for each function
+
+---
+# Step by step
+
+### Documentation development workflow
+
+#### Help page
+
+* add roxygen skeleton to a function
+
+* create documentation with `devtools::document()`
+
+* see the help page with `?function`
+
+Repeat it until done
+
+
+---
+#Step by Step
+
+## Check - `devtools::check()`
+
+It creates your package locally and make several checking in the package.
+
+--
+
+![:scale 70%](check_01.png)
+
+---
+#Step by Step
+
+## Check - `devtools::check()`
+
+
+```r
+usethis::use_mit_licence()
+```
+
+Delete one package from Imports that were not being used
+
+![:scale 60%](check_02.png)
 
 
 ---
@@ -1015,6 +1103,7 @@ Slides created via the R package [**xaringan**](https://github.com/yihui/xaringa
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
 <script>var slideshow = remark.create({
 "highlightStyle": "github",
 "highlightLines": true,
