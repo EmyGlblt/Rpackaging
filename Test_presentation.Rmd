@@ -901,9 +901,12 @@ Main packages needed for package development:
 Check if the package name is available
 ```{r, echo=TRUE, eval=F}
 
-available::available("spatgrad", browse = F)
+available::available("Gradients", browse = F)
 
 ```
+
+--
+![:scale 70%](available.png)
 
 ---
 # Step by step
@@ -911,7 +914,7 @@ available::available("spatgrad", browse = F)
 Then create the package: 
 ```{r, echo=TRUE, eval=FALSE}
 
-usethis::create_package("spatgrad")
+usethis::create_package("Gradients")
 
 ```
 --
@@ -982,7 +985,7 @@ RandomGradient <- function(n_col, n_row, plot = TRUE){
 
 ### Dependencies
 
-**Don't forget to add the packages you use inside your functions to the dependencies section of DESCRIPTION file**
+**Don't forget to add dependencies (packages) to the Imports or Suggets section in the DESCRIPTION file**
 
 You can do that by using the function `usethis::use_package("pkg")` or by adding manually in the DESCRIPTION file
 
@@ -1036,14 +1039,35 @@ It creates your package locally and make several checking in the package.
 
 ## Check - `devtools::check()`
 
-```{r, echo=TRUE, eval=FALSE}
-usethis::use_mit_licence()
-```
-
 Delete one package from Imports that were not being used
 
-![:scale 60%](check_02.png)
+![:scale 70%](check_02.png)
 
+---
+#Step by step
+
+We are ready to release to CRAN! 🎉
+
+For that we use the function `devtools::release()`
+
+This function will ask if you have done a series of checking. 
+
+---
+#Step by Step
+
+## Questions from `devtools::release()`:
+
+
+- Have you checked for spelling errors (with `spell_check()`)?  
+- Have you run `R CMD check` locally? (`devtools::check()`)  
+- Were devtool's checks successful? (`devtools::release_check()`)  
+- Have you checked on R-hub (with `check_rhub()`)?  
+- Have you checked on win-builder (with `check_win_devel()`)?  
+- Have you updated `NEWS.md` file?  
+- Have you updated `DESCRIPTION`?  
+- Have you updated `cran-comments.md?`  
+- Is your email address first.last@example.com?
+- Ready to submit Gradients (0.0.0.9000) to CRAN?
 
 ---
 Whole R package development workflow:
@@ -1067,25 +1091,30 @@ Documentations:
 * `usethis::use_vignette("vignette-name")` # add vignette
 * `usethis::use_test()` # make test file for active R file
 
-
-
-
 ---
-# Step by step
-Write some test
+# Other usefull packages
 
-* `devtools::test_active_file()` # test active file
-* `devtools::test()` # test whole package
-* `devtools::build()` # build vignettes
-* `devtools::install()` # to install package
-* `devtools::check()` # to build and check a package 
-* `usethis::use_readme_rmd()` # to add a README Rmd file
-* `styler::style_pkg()` # optional (commit first, then review changes carefully)
-* `usethis::use_pkgdown_github_pages()` # for setting up pkgdown website on github
-* `usethis::use_pkgdown()` if not using github pages
 
----
-# Bugs and recommendations
+.pull-left-45[
+testthat
+
+![https://pkgdown.r-lib.org/](https://testthat.r-lib.org/logo.png)
+
+Makes 'easy' to implement automatic tests on your package
+
+https://testthat.r-lib.org/
+
+]
+
+.pull-right-45[
+pkgdown
+
+![](https://pkgdown.r-lib.org/logo.png)
+
+Create a nice site to your package and vignettes
+
+https://pkgdown.r-lib.org/
+]
 
 ---
 # Summary of resources
