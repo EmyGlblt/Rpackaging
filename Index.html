@@ -4,9 +4,9 @@
     <title>R packaging</title>
     <meta charset="utf-8" />
     <meta name="author" content="Emy Guilbault &amp; Arthur Rodrigues" />
-    <script src="Index_files/header-attrs-2.25/header-attrs.js"></script>
-    <link href="Index_files/remark-css-0.0.1/default.css" rel="stylesheet" />
-    <link href="Index_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+    <script src="index_files/header-attrs-2.25/header-attrs.js"></script>
+    <link href="index_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="index_files/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
   </head>
   <body>
     <textarea id="source">
@@ -586,7 +586,7 @@ plot(raster.im)
 ]
 
 .pull-right-40[
-&lt;img src="Index_files/figure-html/unnamed-chunk-7-1.png" width="90%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-7-1.png" width="90%" /&gt;
 ]
 
 ---
@@ -601,7 +601,7 @@ Grad1 = RandomGradient(n_col=20, n_row=40)
 ]
 
 .pull-right-40[
-&lt;img src="Index_files/figure-html/unnamed-chunk-9-1.png" width="90%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-9-1.png" width="90%" /&gt;
 ]
 
 ---
@@ -616,7 +616,7 @@ Grad2 = RandomGradient(n_col=30, n_row=30)
 ]
 
 .pull-right-40[
-&lt;img src="Index_files/figure-html/unnamed-chunk-11-1.png" width="90%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-11-1.png" width="90%" /&gt;
 ]
 
 ---
@@ -627,7 +627,7 @@ Grad2 = RandomGradient(n_col=30, n_row=30)
 Grad2.hz = MirrorImage(Grad2, direction = "horizontal")
 ```
 
-&lt;img src="Index_files/figure-html/unnamed-chunk-12-1.png" width="80%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-12-1.png" width="80%" /&gt;
 
 
 ---
@@ -637,7 +637,7 @@ Grad2.hz = MirrorImage(Grad2, direction = "horizontal")
 Grad2.vt = MirrorImage(Grad2, direction = "vertical")
 ```
 
-&lt;img src="Index_files/figure-html/unnamed-chunk-13-1.png" width="80%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-13-1.png" width="80%" /&gt;
 
 
 ---
@@ -648,7 +648,7 @@ We can play with the direction of the gradient
 Rast_change = WiggleImage(Grad2, x = -1, y = 0.6)
 ```
 
-&lt;img src="Index_files/figure-html/unnamed-chunk-14-1.png" width="80%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-14-1.png" width="80%" /&gt;
 
 ---
 # WiggleImage function
@@ -658,7 +658,7 @@ We can play with the steepness of the gradient
 Rast_change2 = WiggleImage(Grad2, z = -5)
 ```
 
-&lt;img src="Index_files/figure-html/unnamed-chunk-15-1.png" width="80%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-15-1.png" width="80%" /&gt;
 
 ---
 # AddNoise function
@@ -669,7 +669,7 @@ or we can just add general noise overall:
 Rast_noise = AddNoise(Grad2, noise = 0.1)
 ```
 
-&lt;img src="Index_files/figure-html/unnamed-chunk-16-1.png" width="80%" /&gt;
+&lt;img src="index_files/figure-html/unnamed-chunk-16-1.png" width="80%" /&gt;
 
 
 ---
