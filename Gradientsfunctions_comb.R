@@ -106,7 +106,7 @@ MirrorImage = function(Rast, direction = c("horizontal", "vertical"),
   
   if(direction == "horizontal"){
     mat1 <- apply(Rast$v, 2, rev)
-    m_raster = as.im(t(mat1))
+    m_raster = as.im((mat1))
     
   }
   
