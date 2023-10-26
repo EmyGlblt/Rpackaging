@@ -572,7 +572,7 @@ plot(raster.im)
 ]
 
 .pull-right-40[
-```{r, echo=F, out.width="90%"}
+```{r, echo=F, out.width="70%"}
 XY = expand.grid(seq(0, 100, 1), seq(0, 100, 1))
 X = XY[,1]
 Y = XY[,2]
@@ -596,7 +596,7 @@ Grad1 = RandomGradient(n_col=20, n_row=40)
 ]
 
 .pull-right-40[
-```{r, echo=F, out.width="90%", warning=FALSE, message=FALSE}
+```{r, echo=F, out.width="70%", warning=FALSE, message=FALSE}
 source('Gradientsfunctions_comb.R')
 set.seed(15)
 Grad1 = RandomGradient(n_col=20, n_row=40)
@@ -614,7 +614,7 @@ Grad2 = RandomGradient(n_col=30, n_row=30)
 ]
 
 .pull-right-40[
-```{r, echo=F, out.width="90%", warning=FALSE, message=FALSE}
+```{r, echo=F, out.width="70%", warning=FALSE, message=FALSE}
 source('Gradientsfunctions_comb.R')
 set.seed(15)
 Grad2 = RandomGradient(n_col=30, n_row=30)
@@ -624,14 +624,14 @@ Grad2 = RandomGradient(n_col=30, n_row=30)
 ---
 # MirrorImage function
 
-```{r, echo=T, out.width="80%", warning=FALSE}
+```{r, echo=T, out.width="50%", warning=FALSE}
 Grad2.hz = MirrorImage(Grad2, direction = "horizontal")
 ```
 
 
 ---
 # MirrorImage function
-```{r, echo=T, out.width="80%", warning=FALSE}
+```{r, echo=T, out.width="50%", warning=FALSE}
 Grad2.vt = MirrorImage(Grad2, direction = "vertical")
 ```
 
@@ -639,14 +639,14 @@ Grad2.vt = MirrorImage(Grad2, direction = "vertical")
 ---
 # WiggleImage function
 We can play with the direction of the gradient
-```{r, echo=T, out.width="80%",  warning=FALSE}
+```{r, echo=T, out.width="50%",  warning=FALSE}
 Rast_change = WiggleImage(Grad2, x = -1, y = 0.6)
 ```
 
 ---
 # WiggleImage function
 We can play with the steepness of the gradient
-```{r, echo=T, out.width="80%",  warning=FALSE}
+```{r, echo=T, out.width="50%",  warning=FALSE}
 Rast_change2 = WiggleImage(Grad2, z = -5)
 ```
 
@@ -654,7 +654,7 @@ Rast_change2 = WiggleImage(Grad2, z = -5)
 # AddNoise function
 or we can just add general noise overall:
 
-```{r, echo=T, out.width="80%", warning=FALSE}
+```{r, echo=T, out.width="50%", warning=FALSE}
 Rast_noise = AddNoise(Grad2, noise = 0.1)
 ```
 
