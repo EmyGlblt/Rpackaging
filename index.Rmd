@@ -739,7 +739,7 @@ Our documentation for `RandomGradient` function can look like this:
 ]
 ]
 
-`@export` informs Roxygen to to put the function name in the package NAMESPACE file which means it can be accessed by users after they run `library(<packagename>)`.
+`@export` informs Roxygen to put the function name in the package NAMESPACE file which means it can be accessed by users after they run `library(<packagename>)`.
 
 ---
 # Other documentation: vignettes
