@@ -463,7 +463,7 @@ What compose the R package?
 
 --
   
-* NAMESPACE file which specifies the function that compose your package and what imports functions from othe rpacages are needed.
+* NAMESPACE file which specifies the function that compose your package and what imports functions from other packages are needed.
 
 These are created using:  `usethis::create_package()`
 
